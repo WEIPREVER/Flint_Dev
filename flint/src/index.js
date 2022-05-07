@@ -15,10 +15,10 @@ import NavigationBar from "./components/NavigationBar";
 
 import Footer from "./components/Footer";
 import Welcome from "./components/Welcome";
-import LoginPage from "./components/Login/LoginPage";
 import withNavigation from "./components/WithNavigation";
 import Login from "./components/Login/Login";
 import WithNavigation from "./components/WithNavigation";
+import Error from "./components/Login/Error";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,8 +30,6 @@ root.render(
     <BrowserRouter>
       <div style={{ backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100vh' }}>
         <NavigationBar />
-
-
         <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
@@ -44,6 +42,7 @@ root.render(
         <Route path="/transfer" element={<Transfer />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<LoginComponentWithNavigation />} />
+        <Route path="*" element={<Error />} />
       </Routes>
         <Footer />
       </div>
