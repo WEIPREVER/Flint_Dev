@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { balances } from './BankAccounts';
+
 const data = [
   {
     name: 'Page A',

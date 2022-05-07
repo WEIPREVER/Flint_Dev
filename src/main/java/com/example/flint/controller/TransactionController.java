@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,24 +67,26 @@ public class TransactionController {
     @GetMapping("/bankAccount/{accountNumber}/transactions/findByDate")
     public ResponseEntity<List<Transaction>> getTransactionsDateOfTransaction(
             @PathVariable(value = "accountNumber") Long accountId,
-            @RequestParam(value = "exact", required = false) Instant dateOfTransaction,
-            @RequestParam(value = "start", required = false) Instant dateOfTransactionStart,
-            @RequestParam(value = "end", required = false) Instant dateOfTransactionEnd) {
+            @RequestParam(value = "exact", required = false) LocalDate dateOfTransaction,
+            @RequestParam(value = "start", required = false) LocalDate dateOfTransactionStart,
+            @RequestParam(value = "end", required = false) LocalDate dateOfTransactionEnd) {
         log.debug("Request to get transaction by param: {}", dateOfTransaction,
                 dateOfTransactionStart, dateOfTransactionEnd);
         List<Transaction> list;
+        Instant dateOfTransactionStartI, dateOfTransactionEndI;
         if (dateOfTransaction != null) {
-            list = transactionServices.findByDateOfTransaction(
-                    accountId,
-                    dateOfTransactionStart);
-        } else if (dateOfTransactionStart != null && dateOfTransactionEnd != null){
-            list = transactionServices.findByDateOfTransactionIsBetween(
-                    accountId,
-                    dateOfTransactionStart,
-                    dateOfTransactionEnd);
+            dateOfTransactionStartI =
+                    dateOfTransaction.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            dateOfTransactionEndI =
+                    dateOfTransaction.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
         } else {
-            list = transactionServices.findByToAccountNumber(accountId);
+            dateOfTransactionStartI = dateOfTransactionStart.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            dateOfTransactionEndI = dateOfTransactionEnd.atStartOfDay(ZoneId.systemDefault()).toInstant();
         }
+        list = transactionServices.findByDateOfTransactionIsBetween(
+                accountId,
+                dateOfTransactionStartI,
+                dateOfTransactionEndI);
         log.debug(list.toString());
         return ResponseEntity.ok().body(list);
     }
@@ -170,6 +174,6 @@ public class TransactionController {
         return ResponseEntity.ok().body(list);
     }
 
-    // todo: need to do update and partial update if needed
 
+    // todo: need to do update and partial update if needed
 }

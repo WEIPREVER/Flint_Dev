@@ -1,5 +1,6 @@
 package com.example.flint.service;
 
+import com.example.flint.model.Balances;
 import com.example.flint.model.BankAccount;
 import com.example.flint.model.Transaction;
 import com.example.flint.model.enumeration.TransactionType;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,9 @@ public class BankAccountService {
 
     @Autowired
     BankAccountRepository bankAccountRepo;
+
+    @Autowired
+    BalanceService balanceService;
 
     @Autowired
     TransactionServices transactionServices;
@@ -38,11 +43,21 @@ public class BankAccountService {
 
     //Create a new account
     public BankAccount createNewBankAccount(BankAccount bankAccount) {
+        return save(bankAccount);
+    }
+
+    //save
+    public BankAccount save(BankAccount bankAccount) {
+        Balances balance = new Balances();
+        balance.setTimeStamp(Instant.now());
+        balance.setBankAccount(bankAccount);
+        balance.setBalances(bankAccount.getBalance());
+        balanceService.saveBalance(balance);
         return bankAccountRepo.save(bankAccount);
     }
 
     //Update a bank account
-    public BankAccount updateBankAccount(BankAccount bankAccount){return bankAccountRepo.save(bankAccount);}
+    public BankAccount updateBankAccount(BankAccount bankAccount){return save(bankAccount);}
 
     //Delete an account
     public void deleteAccount(Long id) { bankAccountRepo.deleteById(id);}
@@ -59,7 +74,7 @@ public class BankAccountService {
         if (input.compareTo(new BigDecimal("0.00")) >= 0) {
             bankAccount.setBalance(bankAccount.getBalance().add(input));
             transactionServices.create(TransactionType.CREDIT, input, bankAccount);
-            bankAccountRepo.save(bankAccount);
+            save(bankAccount);
             return bankAccount.getBalance();
         } else {
             throw new IllegalArgumentException("Not a valid input");
@@ -72,7 +87,7 @@ public class BankAccountService {
         if (input.compareTo(new BigDecimal("0.00")) >= 0) {
             bankAccount.setBalance(bankAccount.getBalance().subtract(input));
             transactionServices.create(TransactionType.DEBIT, input, bankAccount);
-            bankAccountRepo.save(bankAccount);
+            save(bankAccount);
             return bankAccount.getBalance();
         }else {
             throw new IllegalArgumentException("Not a valid input");
