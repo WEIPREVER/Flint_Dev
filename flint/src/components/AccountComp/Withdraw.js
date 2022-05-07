@@ -1,7 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 class Withdraw extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+     
+    };
+    this.handleChange = this.handleChange.bind(this);
+     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    axios.post('api/withdraw', {
+      id:0,
+      primaryAccountNumber: this.state.fromAccountNumber,
+      transactionAmount: this.state.amount
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+   }
+
+
   render() {
     return (
       <>
@@ -27,6 +59,9 @@ class Withdraw extends React.Component {
                     </div>
                     <input
                       type="text"
+                      name="fromAccountNumber"
+                      value={this.state.fromAccountNumber || ''}
+                      onChange= {this.handleChange}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
@@ -40,12 +75,15 @@ class Withdraw extends React.Component {
                     </div>
                     <input
                       type="text"
+                      name="amount"
+                      value={this.state.amount || ''}
+                       onChange = { this.handleChange}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
                   </div>
-                  <button type="submit" className="btn btn-danger mb-2">
+                  <button type="submit" onClick={this.handleSubmit} className="btn btn-danger mb-2">
                     Submit
                   </button>
                 </form>

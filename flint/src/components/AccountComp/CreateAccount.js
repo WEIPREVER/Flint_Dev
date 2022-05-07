@@ -1,7 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class CreateAccount extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post('api/bankaccount', {
+        id: 0,
+        accountName: this.state.accountName,
+        balance: this.state.balance,
+        accountType: this.state.accountType,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      window.location.reload(false);
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
   render() {
     return (
       <>
@@ -27,6 +59,9 @@ class CreateAccount extends React.Component {
                     </div>
                     <input
                       type="text"
+                      name="accountName"
+                      value={this.state.accountName || ''}
+                      onChange={this.handleChange}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
@@ -40,6 +75,9 @@ class CreateAccount extends React.Component {
                     </div>
                     <input
                       type="text"
+                      name="balance"
+                      value={this.state.balance || ''}
+                      onChange={this.handleChange}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
@@ -51,14 +89,19 @@ class CreateAccount extends React.Component {
                         Account Type
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select
+                      className="form-select"
+                      aria-label="Disabled select example"
+                      name="accountType"
+                      value={this.state.accountType}
+                      onChange={this.handleChange}
+                    >
+                      <option>Select Account Type</option>
+                      <option>SAVINGS</option>
+                      <option>CHECKING</option>
+                    </select>
                   </div>
-                  <button type="submit" className="btn btn-danger mb-2">
+                  <button type="submit" onClick={this.handleSubmit} className="btn btn-danger mb-2">
                     Submit
                   </button>
                 </form>

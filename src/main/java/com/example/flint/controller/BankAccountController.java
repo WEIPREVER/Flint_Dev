@@ -2,7 +2,7 @@ package com.example.flint.controller;
 
 
 import com.example.flint.model.BankAccount;
-
+import com.example.flint.model.Transaction;
 import com.example.flint.service.BankAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +26,8 @@ public class BankAccountController {
     BankAccountService bankAccountServe;
 
     //Create a new account
-    @RequestMapping(value="bankaccount", method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody BankAccount bankAccount){ //UriComponentsBuilder ucBuilder
+    @RequestMapping(value = "bankaccount", method = RequestMethod.POST)
+    public ResponseEntity<Void> create(@RequestBody BankAccount bankAccount) { //UriComponentsBuilder ucBuilder
         log.info("Opening new account");
         Long id = bankAccount.getId();
         if (bankAccountServe.exists(id)) {
@@ -33,25 +35,25 @@ public class BankAccountController {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
         bankAccountServe.createNewBankAccount(bankAccount);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/bankaccount/{id}").buildAndExpand(bankAccount.getId().toUri()));
+        //        HttpHeaders headers = new HttpHeaders();
+        //        headers.setLocation(ucBuilder.path("/bankaccount/{id}").buildAndExpand(bankAccount.getId().toUri()));
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     //Update account
-    @RequestMapping (value="/bankaccount/{id}", method =  RequestMethod.PUT)
-    ResponseEntity <BankAccount> updateBankAccount(@Valid @RequestBody BankAccount bankAccount) throws URISyntaxException {
+    @RequestMapping(value = "/bankaccount/{id}", method = RequestMethod.PUT)
+    ResponseEntity<BankAccount> updateBankAccount(@Valid @RequestBody BankAccount bankAccount)
+            throws URISyntaxException {
         BankAccount result = bankAccountServe.updateBankAccount(bankAccount);
         return ResponseEntity.ok().body(result);
     }
 
-
     //Get a list of all accounts (by user eventually)
-    @RequestMapping(value="/bankaccount", method = RequestMethod.GET)
+    @RequestMapping(value = "/bankaccount", method = RequestMethod.GET)
     public ResponseEntity<List<BankAccount>> findAll() {
         log.info("Getting all bank accounts");
         List<BankAccount> bankAccountList = bankAccountServe.getAllBankAccounts();
-        if(bankAccountList == null || bankAccountList.isEmpty()){
+        if (bankAccountList == null || bankAccountList.isEmpty()) {
             log.info("No bank accounts found...");
             return new ResponseEntity<List<BankAccount>>(HttpStatus.NO_CONTENT);
         }
@@ -59,16 +61,16 @@ public class BankAccountController {
     }
 
     //Get particular account by id
-    @RequestMapping(value="/bankaccount/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/bankaccount/{id}", method = RequestMethod.GET)
     public ResponseEntity<BankAccount> get(@PathVariable("id") Long id) {
         log.info("Getting bank account");
         Optional<BankAccount> bankAccount = bankAccountServe.getBankAccount(id);
         return bankAccount.map(response -> ResponseEntity.ok().body(response))
-            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     //Delete an account
-    @RequestMapping(value= "/bankaccount/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/bankaccount/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         log.info("Deleting bank account #" + id);
         Optional<BankAccount> bankAccount = bankAccountServe.getBankAccount(id);
@@ -80,16 +82,27 @@ public class BankAccountController {
         bankAccountServe.deleteAccount(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+    //deposit
+    @PostMapping("/deposit")
+    public ResponseEntity<Void> deposit(@RequestBody Transaction transaction) {
+        bankAccountServe.deposit(transaction.getPrimaryAccountNumber(),
+                transaction.getTransactionAmount());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    //withdraw
+    @PostMapping("/withdraw")
+    public ResponseEntity<Void> withdraw(@RequestBody Transaction transaction) {
+        bankAccountServe.withdraw(transaction.getPrimaryAccountNumber(),
+                transaction.getTransactionAmount());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
     
-    //Deposit
-    // @RequestMapping (value="/bankaccount/{id}", method =  RequestMethod.PUT)
-    // ResponseEntity <BankAccount> updateBankAccount(@Valid @RequestParam id,
-    //  @RequestBody BankAccount bankAccount) throws URISyntaxException {
-    //     BankAccount result = bankAccountServe.updateBankAccount(bankAccount);
-    //     return ResponseEntity.ok().body(result);
-    // }
-
-
-
-
+    //transfer
+    @PostMapping("/transfer")
+    public ResponseEntity<Void> transfer(@RequestBody Transaction transaction) {
+        bankAccountServe.transfer(transaction.getPrimaryAccountNumber(), transaction.getSecondaryAccountNumber(),
+                transaction.getTransactionAmount());
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 }

@@ -13,7 +13,7 @@ class BankAccounts extends React.Component {
     const body = await response.json();
     this.setState({ bankAccounts: body, isLoading: false });
   }
-  bankAcc
+  
 
   render() {
     const { bankAccounts, isLoading } = this.state;

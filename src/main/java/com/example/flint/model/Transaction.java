@@ -31,12 +31,14 @@ public class Transaction implements Serializable {
     @Column(name = "transaction_amount", precision = 21, scale = 2)
     private BigDecimal transactionAmount;
 
-    @Column(name = "to_account_number")
-    private Long toAccountNumber;
+    //secondary account number assigned to the transaction
+    @Column(name = "secondary_account_number")
+    private Long secondaryAccountNumber;
 
+    //primary account number
     @NotNull
-    @Column(name = "from_account_number")
-    private Long fromAccountNumber;
+    @Column(name = "primary_account_number")
+    private Long primaryAccountNumber;
 
     @ManyToOne
     private Category category;
@@ -77,20 +79,20 @@ public class Transaction implements Serializable {
         this.transactionAmount = transactionAmount;
     }
 
-    public Long getToAccountNumber() {
-        return toAccountNumber;
+    public Long getSecondaryAccountNumber() {
+        return secondaryAccountNumber;
     }
 
-    public void setToAccountNumber(Long toAccountNumber) {
-        this.toAccountNumber = toAccountNumber;
+    public void setSecondaryAccountNumber(Long secondaryAccountNumber) {
+        this.secondaryAccountNumber = secondaryAccountNumber;
     }
 
-    public Long getFromAccountNumber() {
-        return fromAccountNumber;
+    public Long getPrimaryAccountNumber() {
+        return primaryAccountNumber;
     }
 
-    public void setFromAccountNumber(Long fromAccountNumber) {
-        this.fromAccountNumber = fromAccountNumber;
+    public void setPrimaryAccountNumber(Long primaryAccountNumber) {
+        this.primaryAccountNumber = primaryAccountNumber;
     }
 
     public Category getCategory() {
