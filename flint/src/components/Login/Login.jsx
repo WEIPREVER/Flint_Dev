@@ -31,6 +31,7 @@ class Login extends Component {
   loginClicked () {
     if(this.state.username==='veer' && this.state.password==='admin') {
       AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
+      //this.props.navigate(`/welcome/${this.state.username}`)
       window.location.replace(`/welcome/${this.state.username}`)
 
     } else {

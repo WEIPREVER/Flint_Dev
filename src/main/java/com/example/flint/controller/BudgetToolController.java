@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,40 +27,44 @@ public class BudgetToolController {
             this.budgetRepository = budgetRepository;
         }
 
-        @GetMapping("/budget_tool")
-        Collection<BudgetTool> budgetItems(){
-            log.info("Getting all Budget Items");
-            return budgetRepository.findAll();
-        }
-        @GetMapping("/budget_tool/{id}")
-        ResponseEntity<?> getBudgetItem(@PathVariable Long id){
-            log.info("Getting category item by {}", id);
+//        @GetMapping("/{user}/budget_tool")
+//        Collection<BudgetTool> budgetItems(@PathVariable String user){
+//            log.info("Getting all Budget Items");
+//            return budgetRepository.findAll();
+//        }
 
-            Optional<BudgetTool> expense = budgetRepository.findById(id);
+        @GetMapping("/{user}/budget_tool/{id}")
+        ResponseEntity<?> getBudgetItem(@PathVariable String user, @PathVariable Long id){
+            //works
+            log.info("Getting category item by {} and {}", user, id);
+
+            Optional<BudgetTool> expense = budgetRepository.findByUserAndId(user,id);
             return ((Optional<?>) expense).map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
         @GetMapping("/{user}/budget_tool")
-        Collection<BudgetTool> getBudgetItem(@PathVariable String user) throws InterruptedException {
+        Collection<BudgetTool> getBudgetItems(@PathVariable String user) throws InterruptedException {
+            //works
             log.info("Getting all Budget Items for {}", user);
             Thread.sleep(500);
             return budgetRepository.findByUser(user);
         }
-        @PostMapping("/budget_tool")
-        ResponseEntity<BudgetTool> createCategory(@Valid @RequestBody BudgetTool budgetItem) throws URISyntaxException {
+        @PostMapping("/{user}/budget_tool")
+        ResponseEntity<BudgetTool> createBudgetTool(@Valid @RequestBody BudgetTool budgetItem) throws URISyntaxException {
             BudgetTool result=budgetRepository.save(budgetItem);
             return ResponseEntity.created(new URI("/users/budget_tool" + result.getId())).body(result);
         }
 
-        @PutMapping("/budget_tool/{id}")
-        ResponseEntity <BudgetTool> updateCategory(@Valid @RequestBody BudgetTool budgetItem) throws URISyntaxException {
+        @PutMapping("/{user}/budget_tool/{id}")
+        ResponseEntity <BudgetTool> updateBudgetTool(@Valid @RequestBody BudgetTool budgetItem, @PathVariable String user) throws URISyntaxException {
             BudgetTool result=budgetRepository.save(budgetItem);
             return ResponseEntity.ok().body(result);
         }
 
-        @DeleteMapping("/budget_tool/{id}")
-        ResponseEntity<?> deleteCategory(@PathVariable Long id){
-            budgetRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
+         @DeleteMapping("/{user}/budget_tool/{id}")
+         ResponseEntity<?> deleteBudgetTool(@PathVariable String user, @PathVariable Long id){
+            budgetRepository.deleteByUserAndId(user,id);
+             return ResponseEntity.ok().build();
+         }
+
 }
