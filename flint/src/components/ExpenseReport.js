@@ -21,6 +21,7 @@ class ExpenseReport extends Component {
     this.retrieveBudgets = this.retrieveBudgets.bind(this)
     this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
     this.deleteExpenseClicked = this.deleteExpenseClicked.bind(this)
+    this.updateExpenseClicked = this.updateExpenseClicked.bind(this)
     this.refreshExpenses = this.refreshExpenses.bind(this)
 
   }
@@ -33,6 +34,13 @@ class ExpenseReport extends Component {
          this.setState({message: `Successfully Deleted Expense: "${name}" (ID #${id})`})
          this.refreshExpenses();
        })
+
+  }
+
+  updateExpenseClicked(id,name){
+    console.log(`Update Expense: "${name}" (ID #${id})`)
+    this.props.navigate(`/expenseReport/${name}/${id}`)
+
 
   }
 
@@ -58,7 +66,7 @@ class ExpenseReport extends Component {
             {' '}
             Welcome to Your Expense Report:
           </h1>
-          {this.state.message && <div className={"alert alert-info"}>{this.state.message}</div>
+          {this.state.message && <div className={"alert alert-success"}><b>{this.state.message}</b></div>
           }          <div className={'row mt-3'}>
             <div className={'col-sm'}>
               <div className={'alert alert-secondary'}>
@@ -139,6 +147,7 @@ class ExpenseReport extends Component {
                   <th>Amount:</th>
                   <th>Category:</th>
                   <th> Date:</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -151,6 +160,7 @@ class ExpenseReport extends Component {
                         <td className={"tableData"}>{expense.categoryId}</td>
                         <td className={"tableData"}>{expense.dateOfExpense}</td>
                         <td><button type={"button"} className={"btn btn-danger"} onClick={() => this.deleteExpenseClicked(expense.id, expense.nameOfExpense)}>Delete</button></td>
+                        <td><button type={"button"} className={"btn btn-warning"} onClick={() => this.updateExpenseClicked(expense.id, expense.nameOfExpense)}>Update</button></td>
                       </tr>
                   )
                 }
