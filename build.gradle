@@ -37,23 +37,23 @@ dependencies {
 }
 
 
-node {
-	version = '16.14.2'
-}
+//node {
+//	version = '16.14.2'
+//}
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
-	script = project.file('./flint/node_modules/webpack/bin/webpack.js')
-	args = [
-			'--mode', 'development',
-			'--entry', './flint/src/index.js',
-			'-o', './src/main/resources/static/dist'
-	]
-}
-
-processResources.dependsOn 'buildReactApp'
-clean.delete << file('node_modules')
-clean.delete << file('src/main/resources/static/dist')
+//task buildReactApp(type: NodeTask, dependsOn: 'npmInstall') {
+//	script = project.file('./flint/node_modules/webpack/bin/webpack.js')
+//	args = [
+//			'--mode', 'development',
+//			'--entry', './flint/src/index.js',
+//			'-o', './src/main/resources/static/dist'
+//	]
+//}
+//
+//processResources.dependsOn 'buildReactApp'
+//clean.delete << file('node_modules')
+//clean.delete << file('src/main/resources/static/dist')
