@@ -25,12 +25,12 @@ class ExpenseReport extends Component {
 
   }
 
-   deleteExpenseClicked(id){
+   deleteExpenseClicked(id,name){
     let user = AuthenticationService.getUser()
      ExpenseDataService.deleteExpensesByUserAndId(user, id)
        .then (
        response => {
-         this.setState({message: `Successfully deleted of Expense ID: ${id}`})
+         this.setState({message: `Successfully Deleted Expense: "${name}" (ID #${id})`})
          this.refreshExpenses();
        })
 
@@ -58,7 +58,7 @@ class ExpenseReport extends Component {
             {' '}
             Welcome to Your Expense Report:
           </h1>
-          {this.state.message && <div className={"alert alert-warning"}>{this.state.message}</div>
+          {this.state.message && <div className={"alert alert-info"}>{this.state.message}</div>
           }          <div className={'row mt-3'}>
             <div className={'col-sm'}>
               <div className={'alert alert-secondary'}>
@@ -150,7 +150,7 @@ class ExpenseReport extends Component {
                         <td className={"tableData"}>${expense.amountSpent}</td>
                         <td className={"tableData"}>{expense.categoryId}</td>
                         <td className={"tableData"}>{expense.dateOfExpense}</td>
-                        <td><button type={"button"} className={"btn btn-danger"} onClick={() => this.deleteExpenseClicked(expense.id)}>Delete</button></td>
+                        <td><button type={"button"} className={"btn btn-danger"} onClick={() => this.deleteExpenseClicked(expense.id, expense.nameOfExpense)}>Delete</button></td>
                       </tr>
                   )
                 }
