@@ -22,27 +22,31 @@ import Login from "./components/Login/Login";
 import Error from "./components/Error";
 import withParams from "./components/WithParams";
 import AuthenticationService from "./services/AuthenticationService";
+import UpdateExpense from "./components/UpdateExpense";
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-let LoginWithNavigation = withNavigation(Login);
-let WelcomeWithParams = withParams(Welcome);
+const LoginWithNavigation = withNavigation(Login);
+const WelcomeWithParams = withParams(Welcome);
+const UpdateExpenseWithParamsAndNavigation = withParams(withNavigation(UpdateExpense));
+const ExpenseReportWithParamsAndNavigation = withParams(withNavigation(ExpenseReport));
+
+
 root.render(
 <React.StrictMode>
     <BrowserRouter>
-      <div style={{ backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100%' }}>
+      <div style={{backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100%'}}>
         <NavigationBar />
-
-
 
         <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
         <Route path="/bankaccount" element={<AuthenticatedRoute><BankAccounts /></AuthenticatedRoute>} />
-        <Route path="/expenseReport" element={<AuthenticatedRoute><ExpenseReport /></AuthenticatedRoute>} />
+        <Route path="/expenseReport/:name/:id" element={<AuthenticatedRoute><UpdateExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
+        <Route path="/expenseReport" element={<AuthenticatedRoute><ExpenseReportWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/transactions" element={<AuthenticatedRoute><Transactions /></AuthenticatedRoute>} />
         <Route path="/deposit" element={<AuthenticatedRoute><Deposit /></AuthenticatedRoute>} />
         <Route path="/newaccount" element={<CreateAccount />} />
