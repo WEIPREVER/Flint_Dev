@@ -12,6 +12,7 @@ class ExpenseReport extends Component {
     super(props)
     this.state = {
       grabBudgets: [],
+      message:null,
       startingBudget:0.00,
       remainingBudget: 0.00,
       distributedBudget: 0.00
@@ -20,24 +21,32 @@ class ExpenseReport extends Component {
     this.retrieveBudgets = this.retrieveBudgets.bind(this)
     this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
     this.deleteExpenseClicked = this.deleteExpenseClicked.bind(this)
+    this.refreshExpenses = this.refreshExpenses.bind(this)
 
   }
 
    deleteExpenseClicked(id){
     let user = AuthenticationService.getUser()
-
-    console.log(id + " " + user)
-    return ;
+     ExpenseDataService.deleteExpensesByUserAndId(user, id)
+       .then (
+       response => {
+         this.setState({message: `Successfully deleted of Expense ID: ${id}`})
+         this.refreshExpenses();
+       })
 
   }
 
-
   // componentDidMount(){
-  //   let user = AuthenticationService.getUser()
-  //   ExpenseDataService.retrieveExpensesByUser(user)
-  //     .then(response => {this.handleSuccessfulResponse(response)})
-  //     .catch(error => console.log(error))
+  //   this.refreshExpenses()
+  //   console.log(this.state)
   // }
+
+  refreshExpenses(){
+    let user = AuthenticationService.getUser()
+    ExpenseDataService.retrieveExpensesByUser(user)
+      .then(response => {this.handleSuccessfulResponse(response)})
+      .catch(error => console.log(error))
+  }
 
   render(){
 
@@ -49,7 +58,8 @@ class ExpenseReport extends Component {
             {' '}
             Welcome to Your Expense Report:
           </h1>
-          <div className={'row mt-3'}>
+          {this.state.message && <div className={"alert alert-warning"}>{this.state.message}</div>
+          }          <div className={'row mt-3'}>
             <div className={'col-sm'}>
               <div className={'alert alert-secondary'}>
                 <span style={{fontWeight:'bold'}}>Starting Budget: $3000 </span>
@@ -140,7 +150,7 @@ class ExpenseReport extends Component {
                         <td className={"tableData"}>${expense.amountSpent}</td>
                         <td className={"tableData"}>{expense.categoryId}</td>
                         <td className={"tableData"}>{expense.dateOfExpense}</td>
-                        <td><button className={"btn btn-warning"} onClick={this.deleteExpenseClicked(expense.id)}>Delete</button></td>
+                        <td><button type={"button"} className={"btn btn-danger"} onClick={() => this.deleteExpenseClicked(expense.id)}>Delete</button></td>
                       </tr>
                   )
                 }

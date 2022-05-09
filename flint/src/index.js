@@ -33,7 +33,7 @@ let WelcomeWithParams = withParams(Welcome);
 root.render(
 <React.StrictMode>
     <BrowserRouter>
-      <div style={{ backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100vh' }}>
+      <div style={{ backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100%' }}>
         <NavigationBar />
 
 
