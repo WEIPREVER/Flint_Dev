@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Data
 @Table(name = "budget_tool")
 public class BudgetTool implements Serializable {
+
 
 
     private static final long serialVersionUID = 1L;
@@ -48,5 +50,18 @@ public class BudgetTool implements Serializable {
             ", dateOfExpense=" + dateOfExpense +
             ", category=" + category +
             '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BudgetTool)) return false;
+        BudgetTool that = (BudgetTool) o;
+        return Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(amountSpent, that.amountSpent) && Objects.equals(nameOfExpense, that.nameOfExpense) && Objects.equals(dateOfExpense, that.dateOfExpense) && Objects.equals(category, that.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, amountSpent, nameOfExpense, dateOfExpense, category);
     }
 }
