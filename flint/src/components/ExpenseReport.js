@@ -19,8 +19,17 @@ class ExpenseReport extends Component {
 
     this.retrieveBudgets = this.retrieveBudgets.bind(this)
     this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
+    this.deleteExpenseClicked = this.deleteExpenseClicked.bind(this)
+
   }
 
+   deleteExpenseClicked(id){
+    let user = AuthenticationService.getUser()
+
+    console.log(id + " " + user)
+    return ;
+
+  }
 
 
   // componentDidMount(){
@@ -31,6 +40,8 @@ class ExpenseReport extends Component {
   // }
 
   render(){
+
+
     return (
       <div className={'expenseForm'}>
         <div className={'container'}>
@@ -110,6 +121,7 @@ class ExpenseReport extends Component {
                   Generate my Report
                 </button>
               </span>
+              <div className={"container"}>
               <table className={'table'}>
                 <thead>
                 <tr className={"tableHeader"}>
@@ -128,17 +140,20 @@ class ExpenseReport extends Component {
                         <td className={"tableData"}>${expense.amountSpent}</td>
                         <td className={"tableData"}>{expense.categoryId}</td>
                         <td className={"tableData"}>{expense.dateOfExpense}</td>
+                        <td><button className={"btn btn-warning"} onClick={this.deleteExpenseClicked(expense.id)}>Delete</button></td>
                       </tr>
                   )
                 }
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
     );
   }
+
 
   retrieveBudgets(){
     let user = AuthenticationService.getUser();
@@ -150,6 +165,7 @@ class ExpenseReport extends Component {
   handleSuccessfulResponse(response){
     this.setState({grabBudgets:response.data})
   }
+
 }
 ;
 export default ExpenseReport;
