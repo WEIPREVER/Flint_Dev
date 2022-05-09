@@ -141,7 +141,8 @@ class ExpenseReport extends Component {
   }
 
   retrieveBudgets(){
-    ExpenseReportService.executeExpenseReportService(AuthenticationService.getUser())
+    let user = AuthenticationService.getUser();
+    ExpenseReportService.executeExpenseReportService(user)
       .then(response => this.handleSuccessfulResponse(response))
       .catch(error => console.log(error))
 
