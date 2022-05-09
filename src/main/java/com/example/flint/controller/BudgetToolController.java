@@ -35,7 +35,6 @@ public class BudgetToolController {
 
         @GetMapping("/{user}/budget_tool/{id}")
         ResponseEntity<?> getBudgetItem(@PathVariable String user, @PathVariable Long id){
-            //works
             log.info("Getting category item by {} and {}", user, id);
 
             Optional<BudgetTool> expense = budgetRepository.findByUserAndId(user,id);
@@ -44,7 +43,6 @@ public class BudgetToolController {
         }
         @GetMapping("/{user}/budget_tool")
         Collection<BudgetTool> getBudgetItems(@PathVariable String user) throws InterruptedException {
-            //works
             log.info("Getting all Budget Items for {}", user);
             Thread.sleep(500);
             return budgetRepository.findByUser(user);
@@ -52,7 +50,7 @@ public class BudgetToolController {
         @PostMapping("/{user}/budget_tool")
         ResponseEntity<BudgetTool> createBudgetTool(@Valid @RequestBody BudgetTool budgetItem) throws URISyntaxException {
             BudgetTool result=budgetRepository.save(budgetItem);
-            return ResponseEntity.created(new URI("/users/budget_tool" + result.getId())).body(result);
+            return ResponseEntity.created(new URI("/users/" + result.getUser() + "budget_tool/" + result.getId())).body(result);
         }
 
         @PutMapping("/{user}/budget_tool/{id}")

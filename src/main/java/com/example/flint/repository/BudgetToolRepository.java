@@ -22,4 +22,5 @@ public interface BudgetToolRepository extends JpaRepository<BudgetTool, Long> {
 
     @Transactional
     Long deleteByUserAndId(@Param("user") String user, @Param("id") Long id);
+
 }
