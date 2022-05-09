@@ -24,10 +24,9 @@ class ExpenseReport extends Component {
 
   componentDidMount(){
     let user = AuthenticationService.getUser()
-    ExpenseDataService.retrieveExpensesByUser(user).then(response => {
-      console.log(response)
-    } )
-
+    ExpenseDataService.retrieveExpensesByUser(user)
+      .then(response => {this.handleSuccessfulResponse(response)})
+      .catch(error => console.log(error))
   }
 
   render(){

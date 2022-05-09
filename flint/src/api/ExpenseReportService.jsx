@@ -2,7 +2,7 @@ import axios from "axios";
 
 class ExpenseReportService{
   executeExpenseReportService(){
-    return axios.get(`http://localhost:8080/budget_tool`)
+    return axios.get(`http://localhost:8080/users/budget_tool`)
   }
 }
 

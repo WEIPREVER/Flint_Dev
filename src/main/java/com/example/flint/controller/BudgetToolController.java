@@ -42,9 +42,9 @@ public class BudgetToolController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
         @GetMapping("/{user}/budget_tool")
-        Collection<BudgetTool> getBudgetItem(@PathVariable String user){
+        Collection<BudgetTool> getBudgetItem(@PathVariable String user) throws InterruptedException {
             log.info("Getting all Budget Items for {}", user);
-
+            Thread.sleep(500);
             return budgetRepository.findByUser(user);
         }
         @PostMapping("/budget_tool")
