@@ -99,12 +99,12 @@ public class TransactionServices {
                 dateOfTransactionEnd);
     }
 
-    public List<Transaction> findByFromAccountNumber(Long fromAccountNumber) {
-        return transactionRepository.findByPrimaryAccountNumber(fromAccountNumber);
+    public List<Transaction> findByPrimaryAccountNumber(Long primaryAccountNumber) {
+        return transactionRepository.findByPrimaryAccountNumber(primaryAccountNumber);
     }
 
-    public List<Transaction> findByToAccountNumber(Long toAccountNumber) {
-        return transactionRepository.findBySecondaryAccountNumber(toAccountNumber);
+    public List<Transaction> findBySecondaryAccountNumber(Long secondaryAccountNumber) {
+        return transactionRepository.findBySecondaryAccountNumber(secondaryAccountNumber);
     }
 
     public List<Transaction> findByTypeOfTransaction(
@@ -146,12 +146,25 @@ public class TransactionServices {
                 categoryId);
     }
 
-    public Transaction create(TransactionType transactionType, BigDecimal amount, BankAccount account){
+    public Transaction create(TransactionType transactionType,
+                              BigDecimal amount,
+                              BankAccount account){
         return this.create(transactionType, amount, account, null, null, null);
     }
 
-    public Transaction create(TransactionType transactionType, BigDecimal amount, BankAccount account, Category category){
+    public Transaction create(TransactionType transactionType,
+                              BigDecimal amount,
+                              BankAccount account,
+                              Category category){
         return this.create(transactionType, amount, account, category, null, null);
+    }
+
+    public Transaction create(TransactionType transactionType,
+                              BigDecimal amount,
+                              BankAccount account,
+                              Category category,
+                              User user){
+        return this.create(transactionType, amount, account, category, null, user);
     }
 
     public Transaction create(TransactionType transactionType,
