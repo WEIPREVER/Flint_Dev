@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Chart from './Chart';
 import { Link } from 'react-router-dom';
 import UseContext from '../../UseContext'
+import axios from 'axios';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class BankAccounts extends React.Component {
   state = {
@@ -10,8 +12,12 @@ class BankAccounts extends React.Component {
     accountNumber: '',
   };
 
+  
+  
+  
   async componentDidMount() {
-    const response = await fetch('api/bankaccount');
+    let user = AuthenticationService.getUser();
+    const response = axios.get(`http://localhost:8080/users/${user}/bankaccount`)
     const body = await response.json();
     this.setState({ bankAccounts: body, isLoading: false });
   }
