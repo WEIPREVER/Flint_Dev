@@ -2,7 +2,6 @@ package com.example.flint.controller;
 
 import com.example.flint.model.Transaction;
 import com.example.flint.model.enumeration.TransactionType;
-import com.example.flint.repository.TransactionRepository;
 import com.example.flint.service.TransactionServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,6 +51,13 @@ public class TransactionController {
         return ResponseEntity.ok().body(listOfAllTransactions);
     }
 
+//    @GetMapping("/transactions")
+//    public ResponseEntity<List<Transaction>> getAllTransactions(@RequestBody Long id) {
+//        log.debug("Request to get all transactions by AccountNumber");
+//        List<Transaction> listOfAllTransactions = transactionServices.findByPrimaryAccountNumber(id);
+//        return ResponseEntity.ok().body(listOfAllTransactions);
+//    }
+
     @GetMapping("/transactions/{id}")
     public ResponseEntity<Transaction> getTransaction(@PathVariable Long id) {
         log.debug("Request to get transaction : {}", id);
@@ -99,9 +105,9 @@ public class TransactionController {
         log.debug("Request to get transaction by param: {}", typeOfRequest,
                 accountNumber);
         if (typeOfRequest.equalsIgnoreCase("to"))
-            list = transactionServices.findByToAccountNumber(accountNumber);
+            list = transactionServices.findBySecondaryAccountNumber(accountNumber);
         else
-            list = transactionServices.findByFromAccountNumber(accountNumber);
+            list = transactionServices.findByPrimaryAccountNumber(accountNumber);
         log.debug(list.toString());
         return ResponseEntity.ok().body(list);
     }
