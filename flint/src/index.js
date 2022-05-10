@@ -17,6 +17,7 @@ import Logout from "./components/Logout";
 import Footer from "./components/Footer";
 import Welcome from "./components/Welcome";
 import withNavigation from "./components/WithNavigation";
+import TransactionDetail from "./components/Transactions/Transaction.Details.js"
 
 import Login from "./components/Login/Login";
 import Error from "./components/Error";
@@ -48,6 +49,7 @@ root.render(
         <Route path="/expenseReport/:name/:id" element={<AuthenticatedRoute><UpdateExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/expenseReport" element={<AuthenticatedRoute><ExpenseReportWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/transactions" element={<AuthenticatedRoute><Transactions /></AuthenticatedRoute>} />
+        <Route path="/transactions/:id" element={<AuthenticatedRoute><TransactionDetail /></AuthenticatedRoute>} />
         <Route path="/deposit" element={<AuthenticatedRoute><Deposit /></AuthenticatedRoute>} />
         <Route path="/newaccount" element={<CreateAccount />} />
         <Route path="/withdraw" element={<AuthenticatedRoute><Withdraw /></AuthenticatedRoute>} />
