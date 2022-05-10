@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
-import UseContext, {Context} from '../../UseContext';
+import UseContext, { Context } from '../../UseContext';
+
 
 class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  state = {
+    isLoading: true,
+  balances: [],
   }
-
-  // async componentDidMount() {
-  //   const response = await fetch('api/balances/' + this.state.accountNumber);
-  //   const body = await response.json();
-  //   this.setState({ balances: body, isLoading: false });
+  
+  
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  //   this.handleChange = this.handleChange.bind(this);
+  //   this.handleSubmit = this.handleSubmit.bind(this);
   // }
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSubmit(event) {
-    event.preventDefault();
-    axios
-      .get('api/balances/' + this.state.accountNumber, {})
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    this.forceUpdate();
+  async componentDidMount() {
+    const response = await fetch('api/balances/1');
+    const body = await response.json();
+    this.setState({ balances: body, isLoading: false });
   }
+
+  // handleChange = e => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  // handleSubmit(event) {
+  //   event.preventDefault();
+  //   axios
+  //     .get('api/balances/' + this.state.accountNumber, {})
+  //     .then(function (response) {
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  //   this.forceUpdate();
+  // }
 
   render() {
     return (
