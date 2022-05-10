@@ -75,6 +75,8 @@ public class BankAccountController {
     public ResponseEntity<Void> delete(@PathVariable String user, @PathVariable Long id) {
         log.info("Deleting bank account #" + id);
         bankAccountServe.deleteByUserAndId(user, id);
+
+        
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     //deposit

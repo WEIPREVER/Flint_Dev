@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class CreateAccount extends React.Component {
   constructor(props) {
@@ -12,9 +13,12 @@ class CreateAccount extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let user = AuthenticationService.getUser();
     axios
-      .post('api/bankaccount', {
+      .post(`http://localhost:8080/users/${user}/bankaccount`, {
+        
         id: 0,
+        user: user,
         accountName: this.state.accountName,
         balance: this.state.balance,
         accountType: this.state.accountType,

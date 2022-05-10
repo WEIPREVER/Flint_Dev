@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.flint.model.Balances;
 import com.example.flint.model.BankAccount;
@@ -12,5 +13,5 @@ import com.example.flint.model.BankAccount;
 
 @Repository
 public interface BalanceRepository extends JpaRepository<Balances,Long> {
-    List<Balances> findByBankAccountOrderByTimeStampAsc(BankAccount bankAccount);
+    List<Balances> findByBankAccountOrderByTimeStampAsc(Optional bankAccount);
 }

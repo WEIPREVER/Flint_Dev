@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 import UseContext, {Context} from '../../UseContext';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -25,15 +26,16 @@ class Chart extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let user = AuthenticationService.getUser();
     axios
-      .get('api/balances/' + this.state.accountNumber, {})
+      .get(`http://localhost:8080/users/${user}/balances` , {})
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
-    this.forceUpdate();
+    
   }
 
   render() {
