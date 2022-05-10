@@ -20,13 +20,14 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins="http://localhost:3000")
 public class BankAccountController {
 
     @Autowired
     BankAccountService bankAccountServe;
 
     //Create a new account
-    @RequestMapping(value = "bankaccount", method = RequestMethod.POST)
+    @RequestMapping(value = "/{user}/bankaccount", method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody BankAccount bankAccount) { //UriComponentsBuilder ucBuilder
         log.info("Opening new account");
         Long id = bankAccount.getId();
@@ -49,10 +50,10 @@ public class BankAccountController {
     }
 
     //Get a list of all accounts (by user eventually)
-    @RequestMapping(value = "/bankaccount", method = RequestMethod.GET)
-    public ResponseEntity<List<BankAccount>> findAll() {
+    @RequestMapping(value = "/{user}/bankaccount", method = RequestMethod.GET)
+    public ResponseEntity<List<BankAccount>> findByUser(@PathVariable String user) {
         log.info("Getting all bank accounts");
-        List<BankAccount> bankAccountList = bankAccountServe.getAllBankAccounts();
+        List<BankAccount> bankAccountList = bankAccountServe.findByUser(user);
         if (bankAccountList == null || bankAccountList.isEmpty()) {
             log.info("No bank accounts found...");
             return new ResponseEntity<List<BankAccount>>(HttpStatus.NO_CONTENT);

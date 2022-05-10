@@ -25,7 +25,7 @@ import java.util.Optional;
 @Repository
 @CrossOrigin(origins="http://localhost:3000")
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
-    Collection<BankAccount> findByUser(String user);
+    List<BankAccount> findByUser(String user);
     Optional<BankAccount> findByUserAndId(String user, Long id);
 
     @Transactional

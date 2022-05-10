@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +27,15 @@ public class BankAccountService {
     TransactionServices transactionServices;
 
     //Get all bank accounts
-    public List<BankAccount> getAllBankAccounts() {
-        return (List<BankAccount>) bankAccountRepo.findAll();
+    public List<BankAccount> findByUser(String user) {
+        return (List<BankAccount>) bankAccountRepo.findByUser(user);
     }
 
     //Get an account by id
     public Optional<BankAccount> getBankAccount(Long id) {
         return bankAccountRepo.findById(id);
     }
+
 
     //Get balance
     public BigDecimal getBankAccountBalance(Long id) {
