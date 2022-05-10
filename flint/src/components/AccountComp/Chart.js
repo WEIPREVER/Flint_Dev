@@ -1,50 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
+import UseContext, {Context} from '../../UseContext';
 
+class Chart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  // async componentDidMount() {
+  //   const response = await fetch('api/balances/' + this.state.accountNumber);
+  //   const body = await response.json();
+  //   this.setState({ balances: body, isLoading: false });
+  // }
 
-class Chart extends React.Component{
-  state = {
-    isLoading: true,
-    balances: [],
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
-  async componentDidMount() {
-    const response = await fetch('api/balances/1');
-    const body = await response.json();
-    this.setState({ balances: body, isLoading: false });
+  handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .get('api/balances/' + this.state.accountNumber, {})
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    this.forceUpdate();
   }
-  
 
- render() {
-  return (
-      <div className="container">
-      <LineChart
-        width={800}
-        height={400}
-        data={this.state.balances}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <XAxis dataKey="timeStamp"
-          tickCount={5}
-        />
-        <YAxis
-        tickCount={10}/>
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="balances" stroke="#FFFF00" strokeWidth={2} activeDot={{ r: 8 }} />
+  render() {
+    return (
+      <UseContext>
+      <div className="container-fluid" id="charting">
+        <LineChart
+          width={600}
+          height={400}
+          data={this.state.balances}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <XAxis dataKey="timeStamp" tickCount={5} />
+          <YAxis tickCount={10} />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="balances" stroke="#FFFF00" strokeWidth={2} activeDot={{ r: 8 }} />
+        </LineChart>
         
-      </LineChart>
-      </div>
+        </div>
+        </UseContext>
     );
- }
+  }
 }
 
 export default Chart;
-
