@@ -36,6 +36,10 @@ public class BankAccountService {
         return bankAccountRepo.findById(id);
     }
 
+    public Optional<BankAccount> findByUserAndId(String user, Long id) {
+        return bankAccountRepo.findByUserAndId(user, id);
+    }
+
 
     //Get balance
     public BigDecimal getBankAccountBalance(Long id) {
@@ -63,8 +67,14 @@ public class BankAccountService {
     public BankAccount updateBankAccount(BankAccount bankAccount){return save(bankAccount);}
 
     //Delete an account
-    public void deleteAccount(Long id) { bankAccountRepo.deleteById(id);}
-
+    public void deleteAccount(Long id) {
+        bankAccountRepo.deleteById(id);
+    }
+    
+    public void deleteByUserAndId(String user, Long id)
+    {
+     bankAccountRepo.deleteByUserAndId(user, id);
+ }
 
     public boolean exists(Long id) {
         bankAccountRepo.existsById(id);
