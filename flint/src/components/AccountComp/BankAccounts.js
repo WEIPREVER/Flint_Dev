@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Chart from './Chart';
 import { Link } from 'react-router-dom';
 import UseContext from '../../UseContext'
+import axios from 'axios';
+import AuthenticationService from '../../services/AuthenticationService';
+import { Table } from 'reactstrap';
 
 class BankAccounts extends React.Component {
   state = {
@@ -10,9 +13,13 @@ class BankAccounts extends React.Component {
     accountNumber: '',
   };
 
+  
+  
+  
   async componentDidMount() {
-    const response = await fetch('api/bankaccount');
-    const body = await response.json();
+    let user = AuthenticationService.getUser();
+    const response = axios.get(`http://localhost:8080/users/${user}/bankaccount`)
+    const body = await response.data;
     this.setState({ bankAccounts: body, isLoading: false });
   }
 
@@ -78,9 +85,26 @@ class BankAccounts extends React.Component {
               </div>
               <hr></hr>
               <div className="container-fluid">
-                
+              {/* <Table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Account Number</th>
+            <th>Account Name</th>
+            <th>Account Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>{bankAccounts[0].id}</td>
+                    <td>{bankAccounts.accountName}</td>
+                    <td>{ bankAccounts.balance}</td>
+                </tr>
+              </tbody>
+              </Table> */}
               </div>
-              <p>Some kind of account text</p>
+              
             </div>
             <div className="col-sm-2 sidenav">
               <div className="well">

@@ -1,6 +1,7 @@
 package com.example.flint.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.flint.model.Balances;
 import com.example.flint.model.BankAccount;
@@ -15,7 +16,8 @@ public class BalanceService {
     @Autowired
     BalanceRepository balanceRepo;
 
-    public List<Balances> getBalances(BankAccount bankAccount) {
+    public List<Balances> getBalances(Optional bankAccount) {
+        
         return balanceRepo.findByBankAccountOrderByTimeStampAsc(bankAccount);
     }
 
