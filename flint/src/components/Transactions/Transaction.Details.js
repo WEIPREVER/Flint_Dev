@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, TableRow, Table } from 'semantic-ui-react';
-import { Link, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
+import { Button } from 'reactstrap';
+import { Link , Navigate} from 'react-router-dom';
 
 class TransactionDetail extends React.Component {
   state = {
@@ -10,10 +10,9 @@ class TransactionDetail extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('/api/transactions/33');
+    const response = await fetch('/api/' + window.location.pathname);
     const body = await response.json();
     this.setState({ transactions: body, isLoading: false });
-
   }
 
   render() {
@@ -21,16 +20,24 @@ class TransactionDetail extends React.Component {
     if (isLoading) {
       return <p>Loading...</p>;
     }
-    
+
     return (
       <div className="table-responsive">
-      {transactions ? (
-        <></>
-      ) : (
-        !isLoading && <div>No Transaction found</div>
-      )}
-    </div>
+        {(
+          <ul class="list-group  bg-transparent">
+            <li class="list-group-item  bg-transparent">Date of Transaction : {format(new Date(transactions.dateOfTransaction), "yyyy-mm-dd hh:mm aaaaa'm'")}</li>
+            <li class="list-group-item  bg-transparent">Type of Transaction : {transactions.typeOfTransaction}</li>
+            <li class="list-group-item  bg-transparent">Transaction Amount : {transactions.transactionAmount}$</li>
+            <li class="list-group-item  bg-transparent">Account Number : 
+            <Button tag={Link} to={`/bankaccount/`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transactions.primaryAccountNumber)}>
+              {transactions.primaryAccountNumber}
+            </Button></li>
+            {transactions.category ? <li class="list-group-item  bg-transparent">{transactions.category}</li> : ""}
+          </ul>
+        ) }
+      </div>
     )
-}}
+  }
+}
 
 export default TransactionDetail;
