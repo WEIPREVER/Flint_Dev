@@ -31,7 +31,7 @@ class BankAccounts extends React.Component {
     }
 
     return (
-      <UseContext>
+      
         <div className="container-fluid text-center">
           <div className="row content">
             <div className="col-sm-2 sidenav">
@@ -61,7 +61,7 @@ class BankAccounts extends React.Component {
               <div className=" container-fluid">
                 <h6>Balances</h6>
                 <Chart />
-                <form>
+                {/* <form>
           <input
             type="text"
             name="accountNumber"
@@ -74,7 +74,7 @@ class BankAccounts extends React.Component {
           <button type="submit" onClick={this.handleSubmit} className="btn btn-danger mb-2">
             Submit
           </button>
-        </form>
+        </form> */}
               </div>
               <hr></hr>
               <div className="container-fluid">
@@ -92,7 +92,7 @@ class BankAccounts extends React.Component {
             </div>
           </div>
         </div>
-      </UseContext>
+      
     );
   }
 }

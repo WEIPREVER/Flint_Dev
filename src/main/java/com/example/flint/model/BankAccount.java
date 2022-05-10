@@ -20,6 +20,9 @@ public class BankAccount implements Serializable {
     @Column(name="accountName")
     String accountName = "";
 
+    @Column(name = "user")
+    private String user;
+
     @Column(name="balance")
     BigDecimal balance = new BigDecimal(0);
 
