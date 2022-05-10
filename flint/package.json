@@ -19,6 +19,7 @@
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
   },
+  "proxy": "http://localhost:8080",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

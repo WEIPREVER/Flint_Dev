@@ -51,13 +51,6 @@ public class TransactionController {
         return ResponseEntity.ok().body(listOfAllTransactions);
     }
 
-//    @GetMapping("/transactions")
-//    public ResponseEntity<List<Transaction>> getAllTransactions(@RequestBody Long id) {
-//        log.debug("Request to get all transactions by AccountNumber");
-//        List<Transaction> listOfAllTransactions = transactionServices.findByPrimaryAccountNumber(id);
-//        return ResponseEntity.ok().body(listOfAllTransactions);
-//    }
-
     @GetMapping("/transactions/{id}")
     public ResponseEntity<Transaction> getTransaction(@PathVariable Long id) {
         log.debug("Request to get transaction : {}", id);
@@ -67,8 +60,6 @@ public class TransactionController {
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
-    //todo need to fix to use just month, day, and year
 
     @GetMapping("/bankAccount/{accountNumber}/transactions/findByDate")
     public ResponseEntity<List<Transaction>> getTransactionsDateOfTransaction(
@@ -99,15 +90,11 @@ public class TransactionController {
 
     @GetMapping("/bankAccount/{accountNumber}/transactions")
     public ResponseEntity<List<Transaction>> getTransactionsByAccount(
-            @PathVariable Long accountNumber,
-            @RequestParam(value = "type", defaultValue = "to") String typeOfRequest) {
+            @PathVariable(value = "accountNumber") final Long accountNumber) {
         List<Transaction> list;
-        log.debug("Request to get transaction by param: {}", typeOfRequest,
+        log.debug("Request to get transaction by param: {}",
                 accountNumber);
-        if (typeOfRequest.equalsIgnoreCase("to"))
-            list = transactionServices.findBySecondaryAccountNumber(accountNumber);
-        else
-            list = transactionServices.findByPrimaryAccountNumber(accountNumber);
+        list = transactionServices.findByPrimaryAccountNumber(accountNumber);
         log.debug(list.toString());
         return ResponseEntity.ok().body(list);
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table } from 'semantic-ui-react';
+import { Button, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -10,9 +10,10 @@ class Transactions extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('api/transactions');
+    const response = await fetch('api/bankAccount/'+sessionStorage.getItem('accountNumber')+'/transactions');
     const body = await response.json();
     this.setState({ transactions: body, isLoading: false });
+    console.log(body)
   }
 
   render() {
