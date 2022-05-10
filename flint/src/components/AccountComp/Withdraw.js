@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class Withdraw extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Withdraw extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios.post('api/withdraw', {
+    let user = AuthenticationService.getUser();
+    axios.post(`http://localhost:8080/users/${user}/withdraw`, {
       id:0,
       primaryAccountNumber: this.state.fromAccountNumber,
       transactionAmount: this.state.amount

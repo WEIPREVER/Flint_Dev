@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import AuthenticationService from '../../services/AuthenticationService';
 
 class Deposit extends React.Component {
 
@@ -15,7 +16,8 @@ class Deposit extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios.post('api/deposit', {
+    let user = AuthenticationService.getUser();
+    axios.post(`http://localhost:8080/users/${user}/deposit`, {
       id:0,
       primaryAccountNumber: this.state.accountNumber,
       transactionAmount: this.state.amount

@@ -80,24 +80,24 @@ public class BankAccountController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     //deposit
-    @PostMapping("/deposit")
-    public ResponseEntity<Void> deposit(@RequestBody Transaction transaction) {
+    @PostMapping("/{user}/deposit")
+    public ResponseEntity<Void> deposit(@PathVariable String user, @RequestBody Transaction transaction) {
         bankAccountServe.deposit(transaction.getPrimaryAccountNumber(),
                 transaction.getTransactionAmount());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     //withdraw
-    @PostMapping("/withdraw")
-    public ResponseEntity<Void> withdraw(@RequestBody Transaction transaction) {
+    @PostMapping("/{user}/withdraw")
+    public ResponseEntity<Void> withdraw(@PathVariable String user, @RequestBody Transaction transaction) {
         bankAccountServe.withdraw(transaction.getPrimaryAccountNumber(),
                 transaction.getTransactionAmount());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     //transfer
-    @PostMapping("/transfer")
-    public ResponseEntity<Void> transfer(@RequestBody Transaction transaction) {
+    @PostMapping("/{user}/transfer")
+    public ResponseEntity<Void> transfer(@PathVariable String user, @RequestBody Transaction transaction) {
         bankAccountServe.transfer(transaction.getPrimaryAccountNumber(), transaction.getSecondaryAccountNumber(),
                 transaction.getTransactionAmount());
         return new ResponseEntity<Void>(HttpStatus.OK);
