@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import AccountSelection from '../AccountSelection';
+import AccountSelection from '../AccountComp/AccountSelection';
 
 class Transactions extends React.Component {
 
@@ -47,7 +47,7 @@ class Transactions extends React.Component {
                       {transaction.id}
                     </Button>
                   </td>
-                  <td>{format(new Date(transaction.dateOfTransaction), "yyyy-mm-dd hh:mm aaaaa'm'")}</td>
+                  <td>{format(new Date(transaction.dateOfTransaction), "yyyy-MM-dd hh:mm aaaaa'm'")}</td>
                   <td>{transaction.typeOfTransaction}</td>
                   <td><Button tag={Link} to={`/bankaccount/`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transaction.primaryAccountNumber)}>
                     {transaction.primaryAccountNumber}

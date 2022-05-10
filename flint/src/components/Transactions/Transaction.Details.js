@@ -25,7 +25,7 @@ class TransactionDetail extends React.Component {
       <div className="table-responsive">
         {(
           <ul class="list-group  bg-transparent">
-            <li class="list-group-item  bg-transparent">Date of Transaction : {format(new Date(transactions.dateOfTransaction), "yyyy-mm-dd hh:mm aaaaa'm'")}</li>
+            <li class="list-group-item  bg-transparent">Date of Transaction : {format(new Date(transactions.dateOfTransaction), "yyyy-MM-dd hh:mm aaaaa'm'")}</li>
             <li class="list-group-item  bg-transparent">Type of Transaction : {transactions.typeOfTransaction}</li>
             <li class="list-group-item  bg-transparent">Transaction Amount : {transactions.transactionAmount}$</li>
             <li class="list-group-item  bg-transparent">Account Number : 

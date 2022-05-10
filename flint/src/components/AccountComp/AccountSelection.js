@@ -5,46 +5,44 @@ class AccountSelection extends React.Component {
     constructor(props) {
         super(props);;
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     state = {
-        current : sessionStorage.getItem('accountNumber'),
+        current : 0,
         accounts : []
     }
 
     async componentDidMount() {
         const response = await fetch('api/bankaccount/');
         const body = await response.json();
-        this.setState({ accounts: body});
+        this.setState({ current: sessionStorage.getItem('accountNumber'), accounts: body});
       }
 
     handleChange(event) {
-        this.setState({ current: event.target.value });
-    }
-    handleSubmit(event) {
-        sessionStorage.setItem("accountNumber", this.state.current)
+        sessionStorage.removeItem('accountNumber')
+        sessionStorage.setItem('accountNumber', event.target.value)
+        window.location.reload();
     }
 
     render() {
         return (
             <div>
-                <Form onSubmit={this.handleSubmit}>
                     <label>
                         Account Selection
-                        <select>
-                            <option value="" key="0" />
-                            {this.state.accounts
-                                ? this.state.accounts.map(bankAccount => (
+                        <select onChange={this.handleChange}>
+                            <option value={this.state.current}>
+                            {this.state.current}
+                            </option>
+                            {this.state.accounts.map(bankAccount => (
+                                bankAccount.id == this.state.current ? "": (
                                     <option value={bankAccount.id} key={bankAccount.id}>
                                         {bankAccount.id}
                                     </option>
+                                )
                                 ))
-                                : null}
+                            }
                         </select>
                     </label>
-                    <input type="submit" value="Submit" />
-                </Form>
             </div>
         )
     }
