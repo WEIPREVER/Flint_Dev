@@ -18,7 +18,7 @@ class BankAccounts extends React.Component {
   async componentDidMount() {
     let user = AuthenticationService.getUser();
     const response = axios.get(`http://localhost:8080/users/${user}/bankaccount`)
-    const body = await response.json();
+    const body = await response.data;
     this.setState({ bankAccounts: body, isLoading: false });
   }
 
