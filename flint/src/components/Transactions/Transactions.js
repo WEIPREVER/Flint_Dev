@@ -10,10 +10,7 @@ class Transactions extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await fetch('api/transactions',
-    {
-        id :
-    });
+    const response = await fetch('api/transactions');
     const body = await response.json();
     this.setState({ transactions: body, isLoading: false });
   }
