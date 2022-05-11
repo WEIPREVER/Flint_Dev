@@ -8,16 +8,24 @@ class Transfer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+     accounts: [],
     };
     this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  async componentDidMount() {
+    const user = AuthenticationService.getUser();
+    const response = await fetch('users/' + user + '/bankaccount');
+    const body = await response.json();
+    this.setState({ accounts: body });
+    console.log(body);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
-    axios.post(`http://localhost:8080/users/${user}/transfer`, {
+    axios.post('/users/' + user + '/transfer', {
       id: 0,
       secondaryAccountNumber: this.state.toAccountNumber,
       primaryAccountNumber: this.state.fromAccountNumber,
@@ -29,6 +37,7 @@ class Transfer extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+    window.location.href = "/bankaccount";
   }
   
   handleChange = (e) => {
@@ -41,7 +50,7 @@ class Transfer extends React.Component {
     return (
       <>
         <div className="container-fluid text-center">
-          <div className="row content">
+          <div className="row content bg-transparent">
             <div className="col-sm-2 sidenav">
               <Link to="/bankaccount">
                 <button className="btn-sm btn-danger" style={{ margin: 5 }}>
@@ -54,40 +63,42 @@ class Transfer extends React.Component {
               <div>
                 <h6>Transfer</h6>
                 <form className="form-inline">
-                  <div className="input-group mb-3">
+                  <div className="input-group mb-3 bg-transparent">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         From Account
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="fromAccountNumber"
-                      value={this.state.fromAccountNumber || ''}
-                      onChange = { this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="fromAccountNumber"
+                      value={this.state.fromAccountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option  key={bankAccount.id}>
+                          {bankAccount.id}
+                           </option>
+                      ))} 
+                    </select>
+                    
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroup-sizing-default">
+                    <div className="input-group-prepend bg-transparent">
+                      <span className="input-group-text" id="inputGroup-sizing-default ">
                         To Account
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="toAccountNumber"
-                      value={this.state.toAccountNumber || ''}
-                      onChange = { this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="toAccountNumber"
+                      value={this.state.toAccountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option  key={bankAccount.id}>
+                          {bankAccount.id}
+                           </option>
+                      ))} 
+                    </select>
+                    
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
+                    <div className="input-group-prepend ">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         Amount
                       </span>
@@ -97,7 +108,7 @@ class Transfer extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>

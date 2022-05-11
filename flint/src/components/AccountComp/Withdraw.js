@@ -7,16 +7,24 @@ class Withdraw extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+      accounts: [],
     };
     this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  async componentDidMount() {
+    const user = AuthenticationService.getUser();
+    const response = await fetch('users/' + user + '/bankaccount');
+    const body = await response.json();
+    this.setState({ accounts: body });
+    console.log(body);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
-    axios.post(`http://localhost:8080/users/${user}/withdraw`, {
+    axios.post('/users/' + user + '/withdraw', {
       id:0,
       primaryAccountNumber: this.state.fromAccountNumber,
       transactionAmount: this.state.amount
@@ -27,6 +35,7 @@ class Withdraw extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+      window.location.href = "/bankaccount";
   }
 
   handleChange = (e) => {
@@ -59,15 +68,15 @@ class Withdraw extends React.Component {
                         Account Number
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="fromAccountNumber"
-                      value={this.state.fromAccountNumber || ''}
-                      onChange= {this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="fromAccountNumber"
+                      value={this.state.fromAccountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option value={this.state.fromAccountNumber} key={bankAccount.id}>
+                          {bankAccount.id}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
@@ -80,7 +89,7 @@ class Withdraw extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>

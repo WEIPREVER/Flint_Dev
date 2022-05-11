@@ -25,7 +25,7 @@ class Deposit extends React.Component {
     event.preventDefault();
     let user = AuthenticationService.getUser();
     axios
-      .post(`http://localhost:8080/users/${user}/deposit`, {
+      .post('/users/' + user + '/deposit', {
         id: 0,
         primaryAccountNumber: this.state.accountNumber,
         transactionAmount: this.state.amount,
@@ -36,6 +36,7 @@ class Deposit extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+      window.location.href = "/bankaccount";
   }
 
   handleChange = e => {
@@ -71,14 +72,14 @@ class Deposit extends React.Component {
                       value={this.state.accountNumber}
                       onChange={this.handleChange}>
                       {this.state.accounts.map(bankAccount => (
-                        <option value={this.state.accountNumber} key={bankAccount.id}>
+                        <option  key={bankAccount.id}>
                           {bankAccount.id}
-                        </option>
-                      ))}
+                           </option>
+                      ))} 
                     </select>
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
+                    <div className="input-group-prepend bg-transparent">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         Amount
                       </span>
@@ -88,7 +89,7 @@ class Deposit extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>

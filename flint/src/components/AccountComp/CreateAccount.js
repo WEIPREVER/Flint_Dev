@@ -15,7 +15,7 @@ class CreateAccount extends React.Component {
     event.preventDefault();
     let user = AuthenticationService.getUser();
     axios
-      .post(`http://localhost:8080/users/${user}/bankaccount`, {
+      .post('/users/' + user + '/bankaccount', {
         
         id: 0,
         user: user,
@@ -29,6 +29,7 @@ class CreateAccount extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+      window.location.href = "/bankaccount";
       // window.location.reload(false);
   }
 
@@ -82,7 +83,7 @@ class CreateAccount extends React.Component {
                       name="balance"
                       value={this.state.balance || ''}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -94,7 +95,7 @@ class CreateAccount extends React.Component {
                       </span>
                     </div>
                     <select
-                      className="form-select"
+                      className="form-select bg-transparent"
                       aria-label="Disabled select example"
                       name="accountType"
                       value={this.state.accountType}

@@ -70,8 +70,8 @@ class BankAccounts extends React.Component {
                   <><Table responsive>
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>Name</th>
+                        <th>Account Number</th>
+                        <th>Account Name</th>
                         <th>Balance</th>
                         <th />
                       </tr>
