@@ -1,4 +1,5 @@
 import React from 'react';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class AccountSelection extends React.Component {
     constructor(props) {
@@ -12,8 +13,8 @@ class AccountSelection extends React.Component {
     }
 
     async componentDidMount() {
-        console.log(sessionStorage.getItem('accountNumber'))
-        const response = await fetch('api/bankaccount/');
+        const user = AuthenticationService.getUser();
+        const response = await fetch('users/'+user+'/bankaccount');
         const body = await response.json();
         if (sessionStorage.getItem('accountNumber') == null) {
             this.setState({ current: body[0].id, accounts: body })
