@@ -28,7 +28,7 @@ class Chart extends React.Component {
     event.preventDefault();
     let user = AuthenticationService.getUser();
     axios
-      .get(`http://localhost:8080/users/${user}/balances` , {})
+      .get(`http://localhost:8080/users/${user}/balances/11` , {})
       .then(function (response) {
         console.log(response);
       })

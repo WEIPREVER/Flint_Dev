@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import AuthenticationService from '../../services/AuthenticationService';
 
 class Transfer extends React.Component {
 
@@ -15,7 +16,8 @@ class Transfer extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios.post('api/transfer', {
+    let user = AuthenticationService.getUser();
+    axios.post(`http://localhost:8080/users/${user}/transfer`, {
       id: 0,
       secondaryAccountNumber: this.state.toAccountNumber,
       primaryAccountNumber: this.state.fromAccountNumber,
