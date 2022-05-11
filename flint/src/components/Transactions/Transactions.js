@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import Chart from '../AccountComp/Chart';
 import AuthenticationService from '../../services/AuthenticationService';
@@ -12,7 +12,7 @@ class Transactions extends React.Component {
   };
 
   async componentDidMount() {
-    console.log(sessionStorage.getItem('accountNumber'))
+    if (window.location.search != null) { sessionStorage.setItem('accountNumber', window.location.search.split(/=/)[1]) }
     if (sessionStorage.getItem('accountNumber') == null) {
       const user = AuthenticationService.getUser();
       const response = await fetch('users/' + user + '/bankaccount');
@@ -86,5 +86,6 @@ class Transactions extends React.Component {
     )
   }
 }
+
 
 export default Transactions;
