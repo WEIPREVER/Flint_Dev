@@ -27,8 +27,12 @@ public class UserService {
         return userRepository.findByUserName(username);
     }
 
-    public boolean match(User user){
-        User data = userRepository.findByUserName(user.getUserName());
-        return user.getPassword()==data.getPassword();
+    public boolean match(String user, String password){
+        User data = userRepository.findByUserName(user);
+        if (data!=null) {
+            String password1 = data.getPassword();
+            return password.equals(password1);
+        }
+        else return false;
     }
 }

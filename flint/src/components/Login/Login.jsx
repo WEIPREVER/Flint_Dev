@@ -10,7 +10,8 @@ class Login extends Component {
       username:"",
       password:"",
       showFailMessage: false,
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      loginAuthen: false
     }
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
@@ -28,13 +29,27 @@ class Login extends Component {
       password:event.target.value
     })
   }
+
+  async loginAuth(){
+    const response = await fetch('/api/users/userAuthentication?user='+this.state.username+'&password='+this.state.password);
+    const body = await response.json();
+    console.log(body);
+    this.setState({loginAuthen:body});
+}
+
   loginClicked () {
+    this.loginAuth()
     if(this.state.username==='veer' && this.state.password==='admin') {
       AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
       // this.props.navigate(`/welcome/${this.state.username}`)
       window.location.replace(`/welcome/${this.state.username}`)
 
-    } else {
+    }  else if (this.state.loginAuthen){
+      AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
+      // this.props.navigate(`/welcome/${this.state.username}`)
+      window.location.replace(`/welcome/${this.state.username}`)
+    }
+    else {
       this.setState({showSuccessMessage:false})
       this.setState({hasLoginFailed:true})
     }

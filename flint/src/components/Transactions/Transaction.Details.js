@@ -29,7 +29,7 @@ class TransactionDetail extends React.Component {
             <li class="list-group-item  bg-transparent">Type of Transaction : {transactions.typeOfTransaction}</li>
             <li class="list-group-item  bg-transparent">Transaction Amount : {transactions.transactionAmount}$</li>
             <li class="list-group-item  bg-transparent">Account Number :
-              <Button tag={Link} to={`/bankaccount/`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transactions.primaryAccountNumber)}>
+              <Button tag={Link} to={`/bankaccount`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transactions.primaryAccountNumber)}>
                 {transactions.primaryAccountNumber}
               </Button></li>
             {transactions.category ? <li class="list-group-item  bg-transparent">{transactions.category}</li> : ""}

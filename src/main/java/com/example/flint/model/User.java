@@ -1,14 +1,12 @@
 package com.example.flint.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Data
 @Table(name="user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,10 +15,13 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private UUID id;
+    @NotNull
     @Column(name="username", unique = true)
     private String userName;
+    @NotNull
     @Column(name="email")
     private String email;
+    @NotNull
     @Column(name="password")
     private String password;
 
@@ -35,5 +36,15 @@ public class User implements Serializable {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

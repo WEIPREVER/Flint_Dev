@@ -46,7 +46,7 @@ class Transactions extends React.Component {
                   </td>
                   <td>{format(new Date(transaction.dateOfTransaction), "yyyy-MM-dd hh:mm aaaaa'm'")}</td>
                   <td>{transaction.typeOfTransaction}</td>
-                  <td><Button tag={Link} to={`/bankaccount/`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transaction.primaryAccountNumber)}>
+                  <td><Button tag={Link} to={`/bankaccount`} color="black" size="small" onClick={sessionStorage.setItem("accountNumber", transaction.primaryAccountNumber)}>
                     {transaction.primaryAccountNumber}
                   </Button></td>
                   <td>

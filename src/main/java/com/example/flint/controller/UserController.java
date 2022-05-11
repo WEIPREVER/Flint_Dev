@@ -4,12 +4,12 @@ import com.example.flint.model.User;
 import com.example.flint.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api")
@@ -18,22 +18,23 @@ public class UserController {
     UserService userService;
     
     @PostMapping("/users")
-    public User save(User user){
-        return userService.save(user);
-    }
-
-    @DeleteMapping("/users")
-    public void delete(User user){
-        userService.delete(user);
+    public ResponseEntity<User> save(User user) throws URISyntaxException {
+        User result = userService.save(user);
+        return ResponseEntity
+                .created(new URI("/user/" + result.getUserName()))
+                .body(result);
     }
 
     @PutMapping("/users")
-    public User update(User user){
-        return userService.save(user);
+    public ResponseEntity<User> update(User user){
+        User result = userService.save(user);
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/users/userAuthentication")
-    public boolean match(User user){
-        return userService.match(user);
+    public  ResponseEntity<Boolean> match(
+            @RequestParam(value = "user") String username,
+            @RequestParam(value = "password") String password){
+        return new ResponseEntity<>(userService.match(username, password), HttpStatus.OK);
     }
 }
