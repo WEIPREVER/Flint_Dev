@@ -24,7 +24,7 @@ class Withdraw extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
-    axios.post(`http://localhost:8080/users/${user}/withdraw`, {
+    axios.post('/users/' + user + '/withdraw', {
       id:0,
       primaryAccountNumber: this.state.fromAccountNumber,
       transactionAmount: this.state.amount

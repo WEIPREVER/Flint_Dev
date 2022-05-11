@@ -25,7 +25,7 @@ class Deposit extends React.Component {
     event.preventDefault();
     let user = AuthenticationService.getUser();
     axios
-      .post(`http://localhost:8080/users/${user}/deposit`, {
+      .post('/users/' + user + '/deposit', {
         id: 0,
         primaryAccountNumber: this.state.accountNumber,
         transactionAmount: this.state.amount,

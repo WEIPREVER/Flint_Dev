@@ -15,7 +15,7 @@ class CreateAccount extends React.Component {
     event.preventDefault();
     let user = AuthenticationService.getUser();
     axios
-      .post(`http://localhost:8080/users/${user}/bankaccount`, {
+      .post('/users/' + user + '/bankaccount', {
         
         id: 0,
         user: user,

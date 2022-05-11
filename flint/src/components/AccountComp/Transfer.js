@@ -25,7 +25,7 @@ class Transfer extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
-    axios.post(`http://localhost:8080/users/${user}/transfer`, {
+    axios.post('/users/' + user + '/transfer', {
       id: 0,
       secondaryAccountNumber: this.state.toAccountNumber,
       primaryAccountNumber: this.state.fromAccountNumber,
