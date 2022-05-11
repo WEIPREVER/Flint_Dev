@@ -21,9 +21,9 @@ return (
           <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li className="nav-item">
+          {!isLoggedIn && <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="/register">Register</a>
-          </li>
+          </li>}
           {isLoggedIn && <li className="nav-item">
             <a className="nav-link" href="/bankaccount">Accounts</a>
           </li>}
