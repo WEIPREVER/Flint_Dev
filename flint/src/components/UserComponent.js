@@ -13,12 +13,12 @@ class UserComponent extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         axios
-          .post('/users/register', {
+          .post('api/users', {
             
             id: 0,
-            accountName: this.state.userName,
-            balance: this.state.email,
-            accountType: this.state.password,
+            userName: this.state.userName,
+            email: this.state.email,
+            password: this.state.password,
           })
           .then(function (response) {
             console.log(response);

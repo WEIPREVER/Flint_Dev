@@ -28,7 +28,7 @@ public class Transaction implements Serializable {
     @Column(name = "type_of_transaction", nullable = false)
     private TransactionType typeOfTransaction;
 
-    @Column(name = "transaction_amount", precision = 21, scale = 2)
+    @Column(name = "transaction_amount", precision = 99, scale = 2)
     private BigDecimal transactionAmount;
 
     //secondary account number assigned to the transaction
