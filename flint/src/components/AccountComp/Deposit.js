@@ -1,27 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 import AuthenticationService from '../../services/AuthenticationService';
 
 class Deposit extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-     
+      accounts: [],
     };
     this.handleChange = this.handleChange.bind(this);
-     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async componentDidMount() {
+    const user = AuthenticationService.getUser();
+    const response = await fetch('users/' + user + '/bankaccount');
+    const body = await response.json();
+    this.setState({ accounts: body });
+    console.log(body);
   }
 
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
-    axios.post(`http://localhost:8080/users/${user}/deposit`, {
-      id:0,
-      primaryAccountNumber: this.state.accountNumber,
-      transactionAmount: this.state.amount
-    })
+    axios
+      .post(`http://localhost:8080/users/${user}/deposit`, {
+        id: 0,
+        primaryAccountNumber: this.state.accountNumber,
+        transactionAmount: this.state.amount,
+      })
       .then(function (response) {
         console.log(response);
       })
@@ -29,13 +37,12 @@ class Deposit extends React.Component {
         console.log(error);
       });
   }
-  
-  handleChange = (e) => {
+
+  handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
-    })
-   }
-          
+      [e.target.name]: e.target.value,
+    });
+  };
 
   render() {
     return (
@@ -53,34 +60,34 @@ class Deposit extends React.Component {
               <h1>Accounts</h1>
               <div>
                 <h6>Deposit</h6>
-                <form className="form-inline"  id="depositForm">
+                <form className="form-inline" id="depositForm">
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         Account Number
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="accountNumber"
-                      value={this.state.accountNumber || ''}
-                      onChange = { this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="accountNumber"
+                      value={this.state.accountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option value={this.state.accountNumber} key={bankAccount.id}>
+                          {bankAccount.id}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
-                        Amount 
+                        Amount
                       </span>
                     </div>
                     <input
                       type="text"
                       name="amount"
                       value={this.state.amount || ''}
-                       onChange = { this.handleChange}
+                      onChange={this.handleChange}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
