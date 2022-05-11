@@ -37,8 +37,8 @@ public class BudgetTool implements Serializable {
     @Column(name = "date_of_expense")
     private LocalDate dateOfExpense;
 
-    @ManyToOne
-    private Category category;
+    @Column(name = "category")
+    private String category;
 
     @Override
     public String toString() {

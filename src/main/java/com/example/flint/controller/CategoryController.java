@@ -15,7 +15,9 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/users")
+
+@CrossOrigin(origins="http://localhost:3000")
 public class CategoryController {
     private CategoryRepository categoryRepository;
 
@@ -24,34 +26,34 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @GetMapping("/categories")
-    Collection<Category> categories(){
-        log.info("Getting all Categories");
-        return categoryRepository.findAll();
+    @GetMapping("/{user}/category")
+    Collection<Category> categories(@PathVariable String user){
+        log.info("Getting all Category Items for {}", user);
+        return categoryRepository.findByUser(user);
     }
-    @GetMapping("/category/{id}")
-    ResponseEntity<?> getCategory(@PathVariable Long id){
-        log.info("Getting category item by {}", id);
+    @GetMapping("/{user}/category/{id}")
+    ResponseEntity<?> getCategory(@PathVariable Long id, @PathVariable String user){
+        log.info("Getting category item by {} and {}", user, id);
 
-        Optional<Category> category = categoryRepository.findById(id);
+        Optional<Category> category = categoryRepository.findByUserAndId(user,id);;
         return category.map(response -> ResponseEntity.ok().body(response))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @PostMapping("/category")
+    @PostMapping("/{user}/category")
     ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) throws URISyntaxException {
-        Category result=categoryRepository.save(category);
-        return ResponseEntity.created(new URI("/api/category" + result.getId())).body(result);
+        Category result = categoryRepository.save(category);
+        return ResponseEntity.created(new URI("/users/" + result.getUser() + "category/" + result.getId())).body(result);
     }
 
-    @PutMapping("/category/{id}")
+        @PutMapping("/{user}/category/{id}")
     ResponseEntity <Category> updateCategory(@Valid @RequestBody Category category) throws URISyntaxException {
         Category result=categoryRepository.save(category);
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/category/{id}")
-    ResponseEntity<?> deleteCategory(@PathVariable Long id){
-        categoryRepository.deleteById(id);
+    @DeleteMapping("/{user}/category/{id}")
+    ResponseEntity<?> deleteCategory(@PathVariable String user, @PathVariable Long id){
+        categoryRepository.deleteByUserAndId(user,id);
         return ResponseEntity.ok().build();
     }
 }
