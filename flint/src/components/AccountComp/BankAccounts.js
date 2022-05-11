@@ -5,6 +5,7 @@ import UseContext from '../../UseContext';
 import axios from 'axios';
 import AuthenticationService from '../../services/AuthenticationService';
 import { Table } from 'reactstrap';
+import AccountSelection from './AccountSelection';
 
 class BankAccounts extends React.Component {
   state = {
@@ -12,19 +13,17 @@ class BankAccounts extends React.Component {
     bankAccounts: [],
     accountNumber: '',
   };
-
-  async componentDidMount() {
-    let user = AuthenticationService.getUser();
-    const response = axios.get(`http://localhost:8080/users/${user}/bankaccount`);
-    const body = await response.data;
-    this.setState({ bankAccounts: body, isLoading: false });
+    
+     async componentDidMount() {
+      let user = AuthenticationService.getUser();
+    const response = await fetch('/users/' + user + '/bankaccount');
+    const body = await response.json();
+       console.log(body);
+    this.setState({ bankAccounts: body, isLoading: false, accountNumber: sessionStorage.getItem('accountNumber') });
   }
+  
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+  
 
   render() {
     const { bankAccounts, isLoading } = this.state;
@@ -68,7 +67,7 @@ class BankAccounts extends React.Component {
             <div className="container-fluid">
               <div className="table-responsive">
                 {bankAccounts && bankAccounts.length > 0 ? (
-                  <Table responsive>
+                  <><Table responsive>
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -86,7 +85,7 @@ class BankAccounts extends React.Component {
                         </tr>
                       ))}
                     </tbody>
-                  </Table>
+                  </Table><div> <AccountSelection /></div></>
                 ) : (
                   !isLoading && <div>No Bank Accounts for {user} found</div>
                 )}
