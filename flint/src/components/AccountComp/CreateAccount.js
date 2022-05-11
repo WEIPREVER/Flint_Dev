@@ -83,7 +83,7 @@ class CreateAccount extends React.Component {
                       name="balance"
                       value={this.state.balance || ''}
                       onChange={this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -95,7 +95,7 @@ class CreateAccount extends React.Component {
                       </span>
                     </div>
                     <select
-                      className="form-select"
+                      className="form-select bg-transparent"
                       aria-label="Disabled select example"
                       name="accountType"
                       value={this.state.accountType}

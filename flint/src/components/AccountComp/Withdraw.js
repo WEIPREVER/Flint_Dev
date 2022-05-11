@@ -89,7 +89,7 @@ class Withdraw extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>

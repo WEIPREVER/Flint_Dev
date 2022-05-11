@@ -71,7 +71,7 @@ class UserComponent extends React.Component {
                         ></input>
                       </div>
                       <div className="input-group mb-3">
-                        <div className="input-group-prepend">
+                        <div className="input-group-prepend bg-transparent">
                           <span className="input-group-text" id="inputGroup-sizing-default">
                             Email
                           </span>
@@ -81,7 +81,7 @@ class UserComponent extends React.Component {
                           name="email"
                           value={this.state.email || ''}
                           onChange={this.handleChange}
-                          className="form-control"
+                          className="form-control bg-transparent"
                           aria-label="Sizing example input"
                           aria-describedby="inputGroup-sizing-default"
                         ></input>

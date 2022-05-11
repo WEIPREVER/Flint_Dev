@@ -50,7 +50,7 @@ class Transfer extends React.Component {
     return (
       <>
         <div className="container-fluid text-center">
-          <div className="row content">
+          <div className="row content bg-transparent">
             <div className="col-sm-2 sidenav">
               <Link to="/bankaccount">
                 <button className="btn-sm btn-danger" style={{ margin: 5 }}>
@@ -63,7 +63,7 @@ class Transfer extends React.Component {
               <div>
                 <h6>Transfer</h6>
                 <form className="form-inline">
-                  <div className="input-group mb-3">
+                  <div className="input-group mb-3 bg-transparent">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         From Account
@@ -81,8 +81,8 @@ class Transfer extends React.Component {
                     
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroup-sizing-default">
+                    <div className="input-group-prepend bg-transparent">
+                      <span className="input-group-text" id="inputGroup-sizing-default ">
                         To Account
                       </span>
                     </div>
@@ -98,7 +98,7 @@ class Transfer extends React.Component {
                     
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend">
+                    <div className="input-group-prepend ">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         Amount
                       </span>
@@ -108,7 +108,7 @@ class Transfer extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control"
+                      className="form-control bg-transparent"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
