@@ -16,7 +16,7 @@ class UserComponent extends React.Component {
           .post('api/users', {
             
             id: 0,
-            username: this.state.userName,
+            userName: this.state.userName,
             email: this.state.email,
             password: this.state.password,
           })
