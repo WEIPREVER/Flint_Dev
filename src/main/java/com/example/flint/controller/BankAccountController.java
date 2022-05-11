@@ -51,7 +51,7 @@ public class BankAccountController {
 
     //Get a list of all accounts (by user eventually)
     @RequestMapping(value = "/{user}/bankaccount", method = RequestMethod.GET)
-    public ResponseEntity<List<BankAccount>> findByUser(@PathVariable String user) {
+    public ResponseEntity<List<BankAccount>> findByUser(@PathVariable(value = "user") String user) {
         log.info("Getting all bank accounts");
         List<BankAccount> bankAccountList = bankAccountServe.findByUser(user);
         if (bankAccountList == null || bankAccountList.isEmpty()) {
@@ -63,7 +63,7 @@ public class BankAccountController {
 
     //Get particular account by id
     @RequestMapping(value = "/{user}/bankaccount/{id}", method = RequestMethod.GET)
-    public ResponseEntity<BankAccount> get(@PathVariable String user, @PathVariable Long id) {
+    public ResponseEntity<BankAccount> get(@PathVariable String user, @PathVariable(value = "user") Long id) {
         log.info("Getting bank account");
         Optional<BankAccount> bankAccount = bankAccountServe.findByUserAndId(user,id);
         return bankAccount.map(response -> ResponseEntity.ok().body(response))
@@ -72,7 +72,7 @@ public class BankAccountController {
 
     //Delete an account
     @RequestMapping(value = "{user}/bankaccount/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable String user, @PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable(value = "user") String user, @PathVariable(value = "id") Long id) {
         log.info("Deleting bank account #" + id);
         bankAccountServe.deleteByUserAndId(user, id);
 
