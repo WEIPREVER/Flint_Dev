@@ -24,6 +24,7 @@ import Error from "./components/Error";
 import withParams from "./components/WithParams";
 import AuthenticationService from "./services/AuthenticationService";
 import UpdateExpense from "./components/UpdateExpense";
+import UserComponent from './components/UserComponent';
 
 
 
@@ -57,7 +58,8 @@ root.render(
         <Route path="/logout"  element={<Logout/>} />
         <Route path="/welcome/:name" element={<AuthenticatedRoute><WelcomeWithParams /></AuthenticatedRoute>} />
         <Route path="/login" element={<LoginWithNavigation />} />
-        <Route path="*" element={<Error />} />
+          <Route path="*" element={<Error />} />
+          <Route path="/register" element={<UserComponent />} />
 
         </Routes>
         <Footer />
