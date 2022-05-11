@@ -30,7 +30,7 @@ public class BalancesController {
     
 //Get a list of all balances 
 @RequestMapping(value = "/{user}/balances/{id}", method = RequestMethod.GET)
-public ResponseEntity<List<Balances>> findAll(@PathVariable String user, @PathVariable Long id) {
+public ResponseEntity<List<Balances>> findAll(@PathVariable(value = "user") String user, @PathVariable(value = "id") Long id) {
     Optional<BankAccount> bankAccount = bankServe.findByUserAndId(user, id);
     List<Balances> balances = balanceServ.getBalances( bankAccount);
     if (balances == null || balances.isEmpty()) {

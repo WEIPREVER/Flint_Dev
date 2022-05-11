@@ -5,18 +5,16 @@ import UseContext, {Context} from '../../UseContext';
 import AuthenticationService from '../../services/AuthenticationService';
 
 class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  state = {
+    balances: [], 
   }
 
-  // async componentDidMount() {
-  //   const response = await fetch('api/balances/' + this.state.accountNumber);
-  //   const body = await response.json();
-  //   this.setState({ balances: body, isLoading: false });
-  // }
+  async componentDidMount() {
+    let user = AuthenticationService.getUser();
+    const response = await fetch('/users/'+user+'/balances/' + sessionStorage.getItem('accountNumber'));
+    const body = await response.json();
+    this.setState({ balances: body, isLoading: false });
+  }
 
   handleChange = e => {
     this.setState({
@@ -24,19 +22,7 @@ class Chart extends React.Component {
     });
   };
 
-  handleSubmit(event) {
-    event.preventDefault();
-    let user = AuthenticationService.getUser();
-    axios
-      .get('/users/'+user+'/balances/' + sessionStorage.getItem('accountNumber') , {})
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    
-  }
+ 
 
   render() {
     return (
