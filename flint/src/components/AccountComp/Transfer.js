@@ -8,10 +8,18 @@ class Transfer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-     
+     accounts: [],
     };
     this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async componentDidMount() {
+    const user = AuthenticationService.getUser();
+    const response = await fetch('users/' + user + '/bankaccount');
+    const body = await response.json();
+    this.setState({ accounts: body });
+    console.log(body);
   }
 
   handleSubmit(event) {
@@ -60,15 +68,16 @@ class Transfer extends React.Component {
                         From Account
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="fromAccountNumber"
-                      value={this.state.fromAccountNumber || ''}
-                      onChange = { this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="fromAccountNumber"
+                      value={this.state.fromAccountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option  key={bankAccount.id}>
+                          {bankAccount.id}
+                           </option>
+                      ))} 
+                    </select>
+                    
                   </div>
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
@@ -76,15 +85,16 @@ class Transfer extends React.Component {
                         To Account
                       </span>
                     </div>
-                    <input
-                      type="text"
-                      name="toAccountNumber"
-                      value={this.state.toAccountNumber || ''}
-                      onChange = { this.handleChange}
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    ></input>
+                    <select name="toAccountNumber"
+                      value={this.state.toAccountNumber}
+                      onChange={this.handleChange}>
+                      {this.state.accounts.map(bankAccount => (
+                        <option  key={bankAccount.id}>
+                          {bankAccount.id}
+                           </option>
+                      ))} 
+                    </select>
+                    
                   </div>
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">

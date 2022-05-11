@@ -71,10 +71,10 @@ class Deposit extends React.Component {
                       value={this.state.accountNumber}
                       onChange={this.handleChange}>
                       {this.state.accounts.map(bankAccount => (
-                        <option value={this.state.accountNumber} key={bankAccount.id}>
+                        <option  key={bankAccount.id}>
                           {bankAccount.id}
-                        </option>
-                      ))}
+                           </option>
+                      ))} 
                     </select>
                   </div>
                   <div className="input-group mb-3">
