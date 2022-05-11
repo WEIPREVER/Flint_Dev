@@ -14,7 +14,7 @@ class AccountSelection extends React.Component {
 
     async componentDidMount() {
         const user = AuthenticationService.getUser();
-        const response = await fetch('users/'+user+'/bankaccount');
+        const response = await fetch('users/' + user + '/bankaccount');
         const body = await response.json();
         if (sessionStorage.getItem('accountNumber') == null) {
             this.setState({ current: body[0].id, accounts: body })
@@ -42,7 +42,7 @@ class AccountSelection extends React.Component {
                         {this.state.accounts.map(bankAccount => (
                             bankAccount.id == this.state.current ? "" : (
                                 <option value={bankAccount.id} key={bankAccount.id}>
-                                    {bankAccount.id}
+                                    {bankAccount.accountName}
                                 </option>
                             )
                         ))

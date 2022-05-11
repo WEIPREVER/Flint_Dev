@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chart from './Chart';
 import { Link } from 'react-router-dom';
-import UseContext from '../../UseContext';
-import axios from 'axios';
 import AuthenticationService from '../../services/AuthenticationService';
 import { Table } from 'reactstrap';
 import AccountSelection from './AccountSelection';
@@ -13,17 +11,14 @@ class BankAccounts extends React.Component {
     bankAccounts: [],
     accountNumber: '',
   };
-    
-     async componentDidMount() {
-      let user = AuthenticationService.getUser();
+
+  async componentDidMount() {
+    let user = AuthenticationService.getUser();
     const response = await fetch('/users/' + user + '/bankaccount');
     const body = await response.json();
-       console.log(body);
+    console.log(body);
     this.setState({ bankAccounts: body, isLoading: false, accountNumber: sessionStorage.getItem('accountNumber') });
   }
-  
-
-  
 
   render() {
     const { bankAccounts, isLoading } = this.state;
@@ -70,7 +65,6 @@ class BankAccounts extends React.Component {
                   <><Table responsive>
                     <thead>
                       <tr>
-                        <th>Account Number</th>
                         <th>Account Name</th>
                         <th>Balance</th>
                         <th />
@@ -79,8 +73,7 @@ class BankAccounts extends React.Component {
                     <tbody>
                       {bankAccounts.map((bankaccount, i) => (
                         <tr key={`entity-${i}`} data-cy="entityTable">
-                          <td>{bankaccount.id}</td>
-                          <td>{bankaccount.accountName}</td>
+                          <td><Link to={'/transactions?value='+ bankaccount.id} style={{color:'#000000'}}>{bankaccount.accountName}</Link></td>
                           <td>{bankaccount.balance}</td>
                         </tr>
                       ))}
