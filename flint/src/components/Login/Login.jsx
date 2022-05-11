@@ -10,8 +10,7 @@ class Login extends Component {
       username:"",
       password:"",
       showFailMessage: false,
-      showSuccessMessage: false,
-      loginAuthen: false
+      showSuccessMessage: false
     }
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
