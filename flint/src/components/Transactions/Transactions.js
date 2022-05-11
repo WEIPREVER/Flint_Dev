@@ -2,22 +2,26 @@ import React from 'react';
 import { Button, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
-import AccountSelection from '../AccountComp/AccountSelection';
 import Chart from '../AccountComp/Chart';
+import AuthenticationService from '../../services/AuthenticationService';
 
 class Transactions extends React.Component {
-
 
   state = {
     transactions: [],
   };
 
   async componentDidMount() {
-    if (sessionStorage.getItem('accountNumber') != null) {
-      const response = await fetch('api/bankAccount/' + sessionStorage.getItem('accountNumber') + '/transactions');
+    console.log(sessionStorage.getItem('accountNumber'))
+    if (sessionStorage.getItem('accountNumber') == null) {
+      const user = AuthenticationService.getUser();
+      const response = await fetch('users/' + user + '/bankaccount');
       const body = await response.json();
-      this.setState({ transactions: body });
+      sessionStorage.setItem('accountNumber', body[0].id)
     }
+    const response = await fetch('api/bankAccount/' + sessionStorage.getItem('accountNumber') + '/transactions');
+    const body = await response.json();
+    this.setState({ transactions: body });
   }
 
   render() {
@@ -29,7 +33,7 @@ class Transactions extends React.Component {
           <div className="col-sm-2 sidenav">
             <Link to="/bankaccount">
               <button className="btn-sm btn-danger" style={{ margin: 5 }}>
-                Back
+                Back to Accounts
               </button>
             </Link>
           </div>
@@ -64,9 +68,6 @@ class Transactions extends React.Component {
                           </td>
                           <td>{format(new Date(transaction.dateOfTransaction), "yyyy-MM-dd hh:mm aaaaa'm'")}</td>
                           <td>{transaction.typeOfTransaction}</td>
-                          <td><Button tag={Link} to={`/bankaccount`} color="black" size="small">
-                            {transaction.primaryAccountNumber}
-                          </Button></td>
                           <td>
                             {transaction.transactionAmount}
                           </td>
