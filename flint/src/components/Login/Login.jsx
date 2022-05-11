@@ -33,18 +33,19 @@ class Login extends Component {
   async loginAuth(){
     const response = await fetch('/api/users/userAuthentication?user='+this.state.username+'&password='+this.state.password);
     const body = await response.json();
-    console.log(body);
-    this.setState({loginAuthen:body});
+    if (body == true){
+      return true;
+    }
 }
 
   loginClicked () {
-    this.loginAuth()
+    const boo = this.loginAuth();
     if(this.state.username==='veer' && this.state.password==='admin') {
       AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
       // this.props.navigate(`/welcome/${this.state.username}`)
       window.location.replace(`/welcome/${this.state.username}`)
 
-    }  else if (this.state.loginAuthen){
+    }  else if (boo){
       AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password);
       // this.props.navigate(`/welcome/${this.state.username}`)
       window.location.replace(`/welcome/${this.state.username}`)
@@ -53,6 +54,7 @@ class Login extends Component {
       this.setState({showSuccessMessage:false})
       this.setState({hasLoginFailed:true})
     }
+    
 
 console.log(this.state)
 
