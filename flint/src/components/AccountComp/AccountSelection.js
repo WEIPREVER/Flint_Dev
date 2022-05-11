@@ -19,12 +19,10 @@ class AccountSelection extends React.Component {
         if (sessionStorage.getItem('accountNumber') == null) {
             this.setState({ current: body[0].id, accounts: body })
             sessionStorage.setItem('accountNumber', body[0].id)
-            console.log(sessionStorage.getItem('accountNumber'))
             window.location.reload();
         } else {
             this.setState({ current: sessionStorage.getItem('accountNumber'), accounts: body });
         }
-        console.log(sessionStorage.getItem('accountNumber'))
     }
 
     handleChange(event) {
