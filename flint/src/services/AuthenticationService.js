@@ -2,10 +2,9 @@ class AuthenticationService {
   registerSuccessfulLogin(username,password){
     console.log("login registered")
     sessionStorage.setItem('authenticatedUser', username)
-    sessionStorage.setItem('accountNumber', 1)
   }
   logout(){
-    sessionStorage.removeItem('authenticatedUser')
+    sessionStorage.clear()
   }
   isLoggedIn(){
     let user = sessionStorage.getItem("authenticatedUser")
