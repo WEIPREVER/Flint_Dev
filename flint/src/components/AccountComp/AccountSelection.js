@@ -1,6 +1,5 @@
 import React from 'react';
 import AuthenticationService from '../../services/AuthenticationService';
-import Chart from './Chart';
 
 class AccountSelection extends React.Component {
     constructor(props) {

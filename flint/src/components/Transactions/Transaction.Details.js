@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Button } from 'reactstrap';
-import { Link, Navigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 class TransactionDetail extends React.Component {
   state = {
