@@ -36,6 +36,7 @@ class Deposit extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+      window.location.href = "/bankaccount";
   }
 
   handleChange = e => {

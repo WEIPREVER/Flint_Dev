@@ -29,6 +29,7 @@ class CreateAccount extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+      window.location.href = "/bankaccount";
       // window.location.reload(false);
   }
 
