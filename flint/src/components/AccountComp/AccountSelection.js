@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthenticationService from '../../services/AuthenticationService';
+import Chart from './Chart';
 
 class AccountSelection extends React.Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class AccountSelection extends React.Component {
                         {this.state.accounts.map(bankAccount => (
                             bankAccount.id == this.state.current ? "" : (
                                 <option value={bankAccount.id} key={bankAccount.id}>
-                                    {bankAccount.id}
+                                    {bankAccount.accountName}
                                 </option>
                             )
                         ))

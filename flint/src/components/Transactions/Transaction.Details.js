@@ -35,6 +35,9 @@ class TransactionDetail extends React.Component {
             {transactions.category ? <li class="list-group-item  bg-transparent">{transactions.category}</li> : ""}
           </ul>
         )}
+        <Button tag={Link} to={`/transactions`} color="black" size="small">
+                    Back
+        </Button>
       </div>
     )
   }
