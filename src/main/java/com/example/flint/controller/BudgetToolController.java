@@ -35,7 +35,7 @@ public class BudgetToolController {
 
         @GetMapping("/{user}/budget_tool/{id}")
         ResponseEntity<?> getBudgetItem(@PathVariable String user, @PathVariable Long id){
-            log.info("Getting category item by {} and {}", user, id);
+            log.info("Getting budget item by {} and {}", user, id);
 
             Optional<BudgetTool> expense = budgetRepository.findByUserAndId(user,id);
             return ((Optional<?>) expense).map(response -> ResponseEntity.ok().body(response))

@@ -31,7 +31,7 @@ return (
             <a className="nav-link" href="/transactions">Transactions</a>
           </li>}
           {isLoggedIn && <li className="nav-item">
-            <a className="nav-link" href="/expenseReport">Expense Report</a>
+            <a className="nav-link" href="/expenseReport">Budgeting Tool</a>
           </li>}
         </ul>
         <ul className="navbar-nav navbar-collapse justify-content-end">

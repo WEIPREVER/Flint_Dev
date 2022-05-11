@@ -25,6 +25,7 @@ import withParams from "./components/WithParams";
 import AuthenticationService from "./services/AuthenticationService";
 import UpdateExpense from "./components/UpdateExpense";
 import UserComponent from './components/UserComponent';
+import AddExpense from "./components/AddExpense";
 
 
 
@@ -34,6 +35,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const LoginWithNavigation = withNavigation(Login);
 const WelcomeWithParams = withParams(Welcome);
 const UpdateExpenseWithParamsAndNavigation = withParams(withNavigation(UpdateExpense));
+const AddExpenseWithParamsAndNavigation = withParams(withNavigation(AddExpense));
 const ExpenseReportWithParamsAndNavigation = withParams(withNavigation(ExpenseReport));
 
 
@@ -48,6 +50,7 @@ root.render(
         <Route path="/home" element={<Home />} />
         <Route path="/bankaccount" element={<AuthenticatedRoute><BankAccounts /></AuthenticatedRoute>} />
         <Route path="/expenseReport/:name/:id" element={<AuthenticatedRoute><UpdateExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
+        <Route path="/expenseReport/addExpense" element={<AuthenticatedRoute><AddExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/expenseReport" element={<AuthenticatedRoute><ExpenseReportWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/transactions" element={<AuthenticatedRoute><Transactions /></AuthenticatedRoute>} />
         <Route path="/transactions/:id" element={<AuthenticatedRoute><TransactionDetail /></AuthenticatedRoute>} />
