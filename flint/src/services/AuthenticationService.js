@@ -4,7 +4,7 @@ class AuthenticationService {
     sessionStorage.setItem('authenticatedUser', username)
   }
   logout(){
-    sessionStorage.removeItem('authenticatedUser')
+    sessionStorage.clear()
   }
   isLoggedIn(){
     let user = sessionStorage.getItem("authenticatedUser")

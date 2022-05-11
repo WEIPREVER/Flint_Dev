@@ -8,22 +8,19 @@ class Transactions extends React.Component {
 
 
   state = {
-    isLoading: true,
     transactions: [],
   };
 
   async componentDidMount() {
-    const response = await fetch('api/bankAccount/' + sessionStorage.getItem('accountNumber') + '/transactions');
-    const body = await response.json();
-    this.setState({ transactions: body, isLoading: false });
+    if (sessionStorage.getItem('accountNumber') != null) {
+      const response = await fetch('api/bankAccount/' + sessionStorage.getItem('accountNumber') + '/transactions');
+      const body = await response.json();
+      this.setState({ transactions: body });
+    }
   }
 
   render() {
-    const { transactions, isLoading } = this.state;
-
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
+    const { transactions } = this.state;
 
     return (
       <><div className="table-responsive">
@@ -60,7 +57,7 @@ class Transactions extends React.Component {
             </tbody>
           </Table>
         ) : (
-          !isLoading && <div>No Transactions found</div>
+          <div>No Transactions found</div>
         )}
       </div><AccountSelection /></>
     )
