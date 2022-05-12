@@ -26,7 +26,8 @@ import AuthenticationService from "./services/AuthenticationService";
 import UpdateExpense from "./components/UpdateExpense";
 import UserComponent from './components/UserComponent';
 import AddExpense from "./components/AddExpense";
-
+import {Provider} from 'react-redux';
+import store from "./components/store";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -41,6 +42,7 @@ const ExpenseReportWithParamsAndNavigation = withParams(withNavigation(ExpenseRe
 
 root.render(
 <React.StrictMode>
+  <Provider store={store} >
     <BrowserRouter>
       <div style={{backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100%'}}>
         <NavigationBar />
@@ -68,6 +70,7 @@ root.render(
         <Footer />
       </div>
     </BrowserRouter>
+  </Provider>
   </React.StrictMode>
 );
 
