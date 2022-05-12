@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import './ExpenseReport.css';
 import { FormGroup } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -6,137 +6,159 @@ import ExpenseReportService from "../api/ExpenseReportService";
 import ExpenseDataService from "../api/ExpenseDataService";
 import AuthenticationService from "../services/AuthenticationService";
 import moment from "moment";
+import {Dialog, DialogActions, DialogContent, TextField} from "@mui/material";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContentText from "@mui/material/DialogContentText";
+import Button from "@mui/material/Button";
+import {Form, useFormik} from "formik";
+import * as Yup from "yup";
+import BudgetTabs from "./BudgetTabs";
 
 
-class ExpenseReport extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      grabBudgets: [],
-      message:null,
-      startingBudget:0.00,
-      remainingBudget: 0.00,
-      distributedBudget: 0.00
+function Formik(props: { children: (e?: (React.FormEvent<HTMLFormElement> | undefined)) => void }) {
+    return null;
+}
+
+const ExpenseReport = (props) => {
+    const [grabBudgets, setGrabBudgets] = useState([])
+    const [message, setMessage] = useState(null)
+
+    function deleteExpenseClicked(id, name) {
+        let user = AuthenticationService.getUser()
+        ExpenseDataService.deleteExpensesByUserAndId(user, id)
+            .then(
+                () => setMessage(`Successfully Deleted Expense: "${name}" (ID #${id})`)
+            )
+             refreshExpenses()
+      }
+
+
+      function updateExpenseClicked(id, name) {
+        console.log(`Update Expense: "${name}" (ID #${id})`)
+        props.navigate(`/expenseReport/${name}/${id}`)
+
+
+      }
+
+
+      function addExpenseClicked() {
+        console.log(`Add a new Expense:`)
+        props.navigate(`/expenseReport/addExpense`)
+      }
+    function setBudgetClicked() {
+        console.log(`Set Budget`)
+        props.navigate(`/expenseReport/setBudget`)
     }
 
-    this.retrieveBudgets = this.retrieveBudgets.bind(this)
-    this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
-    this.deleteExpenseClicked = this.deleteExpenseClicked.bind(this)
-    this.updateExpenseClicked = this.updateExpenseClicked.bind(this)
-    this.refreshExpenses = this.refreshExpenses.bind(this)
+      useEffect(() => {
+          refreshExpenses()
 
-  }
+      },[]);
 
-   deleteExpenseClicked(id,name){
-    let user = AuthenticationService.getUser()
-     ExpenseDataService.deleteExpensesByUserAndId(user, id)
-       .then (
-       response => {
-         this.setState({message: `Successfully Deleted Expense: "${name}" (ID #${id})`})
-         this.refreshExpenses();
-       })
-
-  }
-
-  updateExpenseClicked(id,name){
-    console.log(`Update Expense: "${name}" (ID #${id})`)
-    this.props.navigate(`/expenseReport/${name}/${id}`)
+      function refreshExpenses() {
+        let user = AuthenticationService.getUser()
+        ExpenseDataService.retrieveExpensesByUser(user)
+            .then(response => {
+              handleSuccessfulResponse(response)
+            })
+            .catch(error => console.log(error))
+      }
 
 
-  }
+      return (
+          <div className={'expenseForm'}>
+            <div className={'container'}>
+              <h1 className={'mt-3'} style={{fontFamily: 'Helvetica Neue', fontWeight: 'bold', color: 'black'}}>
+                {' '}
+                Welcome to Your Budgeting Tool:
+              </h1>
+              <h4 className={'mt-3'} style={{fontFamily: 'Helvetica Neue', fontStyle: 'italic', color: 'black'}}>Add your
+                expenses and stick to a pre-set budget.</h4>
+              {message != null && <div className={"alert alert-success"}><b>{message}</b></div>}
 
-  addExpenseClicked(){
-    console.log(`Add a new Expense:`)
-    this.props.navigate(`/expenseReport/addExpense`)
-  }
+              <div className={'row mt-3'}>
+                  <BudgetTabs />
 
-  componentDidMount(){
-    this.refreshExpenses()
-    console.log(this.state)
-  }
-
-  refreshExpenses(){
-    let user = AuthenticationService.getUser()
-    ExpenseDataService.retrieveExpensesByUser(user)
-      .then(response => {this.handleSuccessfulResponse(response)})
-      .catch(error => console.log(error))
-  }
-
-  render(){
-
-
-    return (
-      <div className={'expenseForm'}>
-        <div className={'container'}>
-          <h1 className={'mt-3'} style={{ fontFamily: 'Helvetica Neue', fontWeight: 'bold', color: 'black' }}>
-            {' '}
-            Welcome to Your Budgeting Tool:
-          </h1>
-          <h4 className={'mt-3'} style={{ fontFamily: 'Helvetica Neue', fontStyle: 'italic', color: 'black' }}>Add your expenses and stick to a pre-set budget.</h4>
-          {this.state.message && <div className={"alert alert-success"}><b>{this.state.message}</b></div>}
-
-          <div className={'row mt-3'}>
-
-
-            <div className={'container'} >
+                <div className={'container'}>
               <span className={'col-sm'}>
-                <button className={'alert alert-info'} style={{fontWeight: 'bold' }} onClick={this.retrieveBudgets}>
-                  Set Budget
-                </button>
+
+      <button onClick={() => setBudgetClicked()} className={'alert alert-info'} style={{fontWeight: 'bold' }}>
+        Set Budget
+      </button>
               </span>
-              <span className={'col-sm'}>
-                <button type={"button"} style={{ marginRight: '16px',  marginLeft: '16px', fontWeight: 'bold' }} className={'alert alert-success'} onClick={() => this.addExpenseClicked()}>Add Expense</button>
+                  <span className={'col-sm'}>
+                <button type={"button"} style={{marginRight: '16px', marginLeft: '16px', fontWeight: 'bold'}}
+                        className={'alert alert-success'} onClick={() => addExpenseClicked()}>Add Expense</button>
 
               </span>
+                  <span className={'col-sm'}>
+                <button type={"button"} style={{marginRight: '16px', marginLeft: '16px', fontWeight: 'bold'}}
+                        className={'alert alert-success'} onClick={() => refreshExpenses()}>Generate Report</button>
 
-              <div className={"container"}>
-              <table className={'table'}>
-                <thead>
-                <tr className={"tableHeader"}>
-                  <th>Name:</th>
-                  <th>Amount:</th>
-                  <th>Category:</th>
-                  <th> Date:</th>
+              </span>
+                  <div className={"container"}>
+                    <table className={'table'}>
+                      <thead>
+                      <tr className={"tableHeader"}>
+                        <th>Name:</th>
+                        <th>Amount:</th>
+                        <th>Category:</th>
+                        <th> Date:</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                {
-                  this.state.grabBudgets.map (
-                    expense =>
-                      <tr key = {expense.id}>
-                        <td className={"tableData"}>{expense.nameOfExpense}</td>
-                        <td className={"tableData"}>${expense.amountSpent}</td>
-                        <td className={"tableData"}>{expense.category}</td>
-                        <td className={"tableData"}>{expense.dateOfExpense}</td>
-                        <td><button type={"button"} style={{width:"250px"}}  className={"btn btn-danger"} onClick={() => this.deleteExpenseClicked(expense.id, expense.nameOfExpense)}>Delete</button></td>
-                        <td><button type={"button"} style={{width:"250px"}} className={"btn btn-warning"} onClick={() => this.updateExpenseClicked(expense.id, expense.nameOfExpense)}>Update</button></td>
                       </tr>
-                  )
-                }
-                </tbody>
-              </table>
+                      </thead>
+                      <tbody>
+                      {
+                        grabBudgets.map(
+                            expense =>
+                                <tr key={expense.id}>
+                                    {console.log(expense.nameOfExpense)}
+                                  <td className={"tableData"}>{expense.nameOfExpense}</td>
+                                  <td className={"tableData"}>${expense.amountSpent}</td>
+                                  <td className={"tableData"}>{expense.category}</td>
+                                  <td className={"tableData"}>{expense.dateOfExpense}</td>
+                                  <td>
+
+                                    <button type={"button"} style={{width: "250px"}} className={"btn btn-danger"}
+                                            onClick={() => deleteExpenseClicked(expense.id, expense.nameOfExpense)}>Delete
+                                    </button>
+                                  </td>
+                                  <td>
+                                    <button type={"button"} style={{width: "250px"}} className={"btn btn-warning"}
+                                            onClick={() => updateExpenseClicked(expense.id, expense.nameOfExpense)}>Update
+                                    </button>
+                                  </td>
+                                </tr>
+                        )
+                      }
+
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
               </div>
             </div>
+
+
+
+
           </div>
-        </div>
-      </div>
-    );
-  }
+      )
 
 
-  retrieveBudgets(){
-    let user = AuthenticationService.getUser();
-    ExpenseReportService.executeExpenseReportService(user)
-      .then(response => this.handleSuccessfulResponse(response))
-      .catch(error => console.log(error))
+      function retrieveBudgets() {
+        let user = AuthenticationService.getUser();
+        ExpenseReportService.executeExpenseReportService(user)
+            .then(response => handleSuccessfulResponse(response))
+            .catch(error => console.log(error))
 
-  }
-  handleSuccessfulResponse(response){
-    this.setState({grabBudgets:response.data})
-  }
+      }
 
-}
+      function handleSuccessfulResponse(response) {
+        setGrabBudgets(response.data)
+      }
+    }
 ;
 export default ExpenseReport;
 

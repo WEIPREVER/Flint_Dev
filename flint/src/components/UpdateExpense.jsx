@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UpdateExpense = (props) => {
-    const [id, setId] = useState(props.params.id);
-    const [nameOfExpense, setNameOfExpense] = useState(props.params.name);
-    const [amount, setAmount] = useState("");
-    const [date, setDate] = useState(Date);
+    const [id, setId] = useState(props.params.id)
+    const [nameOfExpense, setNameOfExpense] = useState(props.params.name)
+    const [amount, setAmount] = useState("")
+    const [date, setDate] = useState(Date)
     const [values, setValues] = useState([])
     const [category, setNewCategory] = useState("")
     const [expense,setExpense] = useState({})

@@ -26,7 +26,9 @@ import AuthenticationService from "./services/AuthenticationService";
 import UpdateExpense from "./components/UpdateExpense";
 import UserComponent from './components/UserComponent';
 import AddExpense from "./components/AddExpense";
-
+import {Provider} from 'react-redux';
+import store from "./components/store";
+import UpdateBudget from "./components/UpdateBudget";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -36,11 +38,13 @@ const LoginWithNavigation = withNavigation(Login);
 const WelcomeWithParams = withParams(Welcome);
 const UpdateExpenseWithParamsAndNavigation = withParams(withNavigation(UpdateExpense));
 const AddExpenseWithParamsAndNavigation = withParams(withNavigation(AddExpense));
+const SetBudgetWithParamsAndNavigation = withParams(withNavigation(UpdateBudget));
 const ExpenseReportWithParamsAndNavigation = withParams(withNavigation(ExpenseReport));
 
 
 root.render(
 <React.StrictMode>
+  <Provider store={store} >
     <BrowserRouter>
       <div style={{backgroundImage: 'linear-gradient(#ff8a00, #e52e71)', position: 'relative', minHeight: '100%'}}>
         <NavigationBar />
@@ -51,6 +55,7 @@ root.render(
         <Route path="/bankaccount" element={<AuthenticatedRoute><BankAccounts /></AuthenticatedRoute>} />
         <Route path="/expenseReport/:name/:id" element={<AuthenticatedRoute><UpdateExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/expenseReport/addExpense" element={<AuthenticatedRoute><AddExpenseWithParamsAndNavigation /></AuthenticatedRoute>} />
+        <Route path="/expenseReport/setBudget" element={<AuthenticatedRoute><SetBudgetWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/expenseReport" element={<AuthenticatedRoute><ExpenseReportWithParamsAndNavigation /></AuthenticatedRoute>} />
         <Route path="/transactions" element={<AuthenticatedRoute><Transactions /></AuthenticatedRoute>} />
         <Route path="/transactions/:id" element={<AuthenticatedRoute><TransactionDetail /></AuthenticatedRoute>} />
@@ -68,6 +73,7 @@ root.render(
         <Footer />
       </div>
     </BrowserRouter>
+  </Provider>
   </React.StrictMode>
 );
 
