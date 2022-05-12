@@ -20,9 +20,8 @@ function Formik(props: { children: (e?: (React.FormEvent<HTMLFormElement> | unde
 }
 
 const ExpenseReport = (props) => {
-      const [grabBudgets, setGrabBudgets] = useState([])
-      const [message, setMessage] = useState(null)
-
+    const [grabBudgets, setGrabBudgets] = useState([])
+    const [message, setMessage] = useState(null)
 
     function deleteExpenseClicked(id, name) {
         let user = AuthenticationService.getUser()
@@ -46,6 +45,10 @@ const ExpenseReport = (props) => {
         console.log(`Add a new Expense:`)
         props.navigate(`/expenseReport/addExpense`)
       }
+    function setBudgetClicked() {
+        console.log(`Set Budget`)
+        props.navigate(`/expenseReport/setBudget`)
+    }
 
       useEffect(() => {
           refreshExpenses()
@@ -60,6 +63,7 @@ const ExpenseReport = (props) => {
             })
             .catch(error => console.log(error))
       }
+
 
       return (
           <div className={'expenseForm'}>
@@ -78,7 +82,7 @@ const ExpenseReport = (props) => {
                 <div className={'container'}>
               <span className={'col-sm'}>
 
-      <button className={'alert alert-info'} style={{fontWeight: 'bold' }}>
+      <button onClick={() => setBudgetClicked()} className={'alert alert-info'} style={{fontWeight: 'bold' }}>
         Set Budget
       </button>
               </span>
@@ -130,6 +134,7 @@ const ExpenseReport = (props) => {
 
                       </tbody>
                     </table>
+
                   </div>
                 </div>
               </div>
