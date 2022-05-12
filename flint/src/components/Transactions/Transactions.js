@@ -53,7 +53,6 @@ class Transactions extends React.Component {
                         <th>ID</th>
                         <th>Date Of Transaction</th>
                         <th>Type Of Transaction</th>
-                        <th>Account</th>
                         <th>Amount</th>
                         <th />
                       </tr>

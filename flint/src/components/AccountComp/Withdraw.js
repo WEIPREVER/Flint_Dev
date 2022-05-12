@@ -65,15 +65,16 @@ class Withdraw extends React.Component {
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
-                        Account Number
+                        Account 
                       </span>
                     </div>
                     <select name="fromAccountNumber"
                       value={this.state.fromAccountNumber}
                       onChange={this.handleChange}>
+                      <option>Select an Account</option>
                       {this.state.accounts.map(bankAccount => (
-                        <option value={this.state.fromAccountNumber} key={bankAccount.id}>
-                          {bankAccount.id}
+                        <option value={bankAccount.id} key={bankAccount.id}>
+                          {bankAccount.accountName}
                         </option>
                       ))}
                     </select>
@@ -89,7 +90,7 @@ class Withdraw extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control bg-transparent"
+                      className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -100,15 +101,15 @@ class Withdraw extends React.Component {
                 </form>
               </div>
               <hr></hr>
-              <h3>Banking text</h3>
-              <p>Some kind of account text</p>
+              <h3></h3>
+              <p></p>
             </div>
             <div className="col-sm-2 sidenav">
               <div className="well">
-                <p>Blogger</p>
+                <p></p>
               </div>
               <div className="well">
-                <p>NYCE Tube</p>
+                <p></p>
               </div>
             </div>
           </div>
