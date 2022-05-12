@@ -40,6 +40,13 @@ const UpdateBudget = (props) => {
     let remainingBudget = budgetState.remainingBudget;
     let distributedBudget = budgetState.distributedBudget;
 
+
+
+
+
+
+
+
     const formik = useFormik({
         initialValues: {
             budget: 0.0,
@@ -51,7 +58,7 @@ const UpdateBudget = (props) => {
                 .required('Required'),
         }),
         onSubmit: (values) => {
-
+            dispatch(setter,)
             navigateAway()
         }
     })
