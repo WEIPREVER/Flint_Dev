@@ -11,15 +11,9 @@ class Chart extends React.Component {
 
   async componentDidMount() {
     let user = AuthenticationService.getUser();
-    const response = await fetch('/users/'+user+'/balances/' + sessionStorage.getItem('accountNumber'));
+    console.log('/users/' + user + '/balances/' + sessionStorage.getItem('accountNumber'))
+    const response = await fetch('/users/' + user + '/balances/' + sessionStorage.getItem('accountNumber'));
     const body = await response.json();
-    if (sessionStorage.getItem('accountNumber') == null) {
-      this.setState({ current: body[0].id, accounts: body })
-      sessionStorage.setItem('accountNumber', body[0].id)
-      window.location.reload();
-  } else {
-      this.setState({ current: sessionStorage.getItem('accountNumber'), accounts: body });
-  }
     this.setState({ balances: body, isLoading: false });
   }
 

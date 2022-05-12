@@ -12,12 +12,16 @@ class Transactions extends React.Component {
   };
 
   async componentDidMount() {
-    if (window.location.search != null) { sessionStorage.setItem('accountNumber', window.location.search.split(/=/)[1]) }
-    if (sessionStorage.getItem('accountNumber') == null) {
+    if (window.location.search.split(/=/)[1] != null ||
+      window.location.search.split(/=/)[1] !== undefined
+    ) { sessionStorage.setItem('accountNumber', window.location.search.split(/=/)[1]) }
+    if (sessionStorage.getItem('accountNumber') === null ||
+      sessionStorage.getItem('accountNumber') === undefined) {
       const user = AuthenticationService.getUser();
       const response = await fetch('users/' + user + '/bankaccount');
       const body = await response.json();
       sessionStorage.setItem('accountNumber', body[0].id)
+
     }
     const response = await fetch('api/bankAccount/' + sessionStorage.getItem('accountNumber') + '/transactions');
     const body = await response.json();
