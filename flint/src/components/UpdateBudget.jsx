@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {setter, calculateRemainingBudget, calculateDistributedBudget} from "./budgetSlice"
 import Button from "@mui/material/Button";
 import {
     Autocomplete,
@@ -23,6 +22,7 @@ import * as Yup from "yup";
 import moment from "moment";
 import ExpenseDataService from "../api/ExpenseDataService";
 import {makeStyles} from "material-ui-core/styles";
+import AuthenticationService from "../services/AuthenticationService";
 
 const useStyles = makeStyles((theme) => ({
     formWrapper: {
@@ -32,46 +32,46 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UpdateBudget = (props) => {
-    let dispatch = useDispatch();
-    let budgetState = useSelector((state)=> {
-        return state["budget"];
-    })
-    let startingBudget = budgetState.startingBudget;
-    let remainingBudget = budgetState.remainingBudget;
-    let distributedBudget = budgetState.distributedBudget;
+    const [expense,setExpense] = useState({})
 
 
-
-
-
-
-
+    const user = AuthenticationService.getUser();
+    const classes = useStyles();
 
     const formik = useFormik({
         initialValues: {
-            budget: 0.0,
+            sb: '',
         },
         validationSchema: Yup.object().shape({
-            budget: Yup.string()
+            sb: Yup.string()
                 .matches(/^[0-9]+\.[0-9]{2}$/)
                 .typeError('Please enter a monetary amount')
                 .required('Required'),
         }),
         onSubmit: (values) => {
-            dispatch(setter,)
-            navigateAway()
+            setExpense({
+                id:1,
+                user:user,
+                startBudget:values.sb,
+            })
+            console.log(values.sb)
+            ExpenseDataService.updateStartBudget(user, 1, expense)
+
+                .then(
+                    () => props.navigate(`/expenseReport`)
+                )
+                .catch((error) => console.log(error))
+
         }
     })
 
-    function navigateAway(){
-        props.navigate(`/expenseReport`)
-    }
-    const classes = useStyles();
+
 
     return (
+
         <Grid container className={'box-container'}>
             <Grid item xs={6}>
-                <h1 className={"updateExpense"}> Set a Budget </h1>
+                <h1 className={"updateExpense"}> Set Starting Budget </h1>
             </Grid>
             <Grid item xs={6}>
                 <Container maxWidth={'md'}>
@@ -81,24 +81,29 @@ const UpdateBudget = (props) => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <Typography>
-                                           New Starting Budget Amount:
+                                            Set Starting Budget:
                                         </Typography>
                                         <TextField
-                                            id={"budget"}
-                                            name={"budget"}
+                                            id={"sb"}
+                                            name={"sb"}
                                             type={"text"}
-                                            placeholder={"Name of Expense"}
+                                            placeholder={"Amount Spent"}
                                             onChange={formik.handleChange}
-                                            value={formik.values.budget}
+                                            value={formik.values.sb}
                                         />
-                                        {formik.errors.startingBudget ? <p style={{color:"red"}}>Required: Name of Expense must contain only letters, numbers, and spaces.</p> : null}
+                                        {formik.errors.sb ? <p style={{color:"red"}}>Amount must match the following format: "0.00"</p> : null}
+
                                     </Grid>
+
+
                                     <Grid item xs={12}>
                                         <div className={"container"}  style={{textAlign:"right"}}>
                                             <button style={{ margin:"10%", width:"200px"}} type={"submit"} className={"btn btn-primary"}>Submit</button>
                                         </div>
                                     </Grid>
+
                                 </Grid>
+
                             </Form>
                         </Formik>
                     </div>
@@ -106,6 +111,8 @@ const UpdateBudget = (props) => {
             </Grid>
         </Grid>
 
+
     )
+
 }
 export default UpdateBudget;

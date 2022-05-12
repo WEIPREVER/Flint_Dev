@@ -57,15 +57,15 @@ const formik = useFormik({
     }),
     onSubmit: (values) => {
         setExpense({
-            id:id,
+            id:1,
             user:user,
             amountSpent:values.amount,
             nameOfExpense:values.nameOfExpense,
             dateOfExpense:moment(date).format("YYYY-MM-DD"),
             category:category
         })
-        ExpenseDataService.updateExpense(user, id, {
-            id:id,
+        ExpenseDataService.updateExpense(user, 1, {
+            id:1,
             user:user,
             amountSpent:values.amount,
             nameOfExpense:values.nameOfExpense,

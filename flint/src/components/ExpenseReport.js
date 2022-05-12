@@ -21,6 +21,9 @@ function Formik(props: { children: (e?: (React.FormEvent<HTMLFormElement> | unde
 
 const ExpenseReport = (props) => {
     const [grabBudgets, setGrabBudgets] = useState([])
+    const[startBudget,setStartBudget] = useState([])
+    const[remainingBudget,setRemainingBudget] = useState([])
+    const[distributedBudget,setDistributedBudget] = useState([])
     const [message, setMessage] = useState(null)
 
     function deleteExpenseClicked(id, name) {
@@ -52,6 +55,7 @@ const ExpenseReport = (props) => {
 
       useEffect(() => {
           refreshExpenses()
+          retrieveStartBudget()
 
       },[]);
 
@@ -64,7 +68,19 @@ const ExpenseReport = (props) => {
             .catch(error => console.log(error))
       }
 
+        function retrieveStartBudget() {
+            let user = AuthenticationService.getUser();
+            ExpenseDataService.getStartBudget(user)
+                .then(response => setSB(response))
+                .catch(error => console.log(error))
 
+        }
+
+        function setSB(response){
+            setStartBudget(response.data)
+        }
+
+console.log("x" + startBudget.startingBudget)
       return (
           <div className={'expenseForm'}>
             <div className={'container'}>
@@ -77,7 +93,22 @@ const ExpenseReport = (props) => {
               {message != null && <div className={"alert alert-success"}><b>{message}</b></div>}
 
               <div className={'row mt-3'}>
-                  <BudgetTabs />
+                  <div>
+                      <div className={'col-sm'}>
+                          <div className={'alert alert-secondary'}>
+                              <span style={{fontWeight:'bold'}}>Starting Budget: ${startBudget.startBudget} </span>
+                          </div>            </div>
+                      <div className={'col-sm'}>
+                          <div className={'alert alert-success'}>
+                              <span style={{fontWeight: 'bold'}}>Remaining Budget: ${remainingBudget}</span>
+                          </div>
+                      </div>
+                      <div className={'col-sm'}>
+                          <div className={'alert alert-primary'}>
+                              <span style={{fontWeight:'bold'}}> Distributed Budget: ${distributedBudget} </span>
+                          </div>
+                      </div>
+                  </div>
 
                 <div className={'container'}>
               <span className={'col-sm'}>

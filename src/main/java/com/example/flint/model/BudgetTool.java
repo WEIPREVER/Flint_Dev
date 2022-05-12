@@ -40,6 +40,7 @@ public class BudgetTool implements Serializable {
     @Column(name = "category")
     private String category;
 
+
     @Override
     public String toString() {
         return "BudgetTool{" +

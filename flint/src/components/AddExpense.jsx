@@ -96,6 +96,29 @@ const AddExpense = (props) => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <Typography>
+                                            Category:
+                                        </Typography>
+                                        <Stack spacings={2} width='300px'>
+                                            <Autocomplete
+                                                selectOnFocus
+                                                clearOnBlur
+                                                handleHomeEndKeys
+                                                freeSolo
+                                                id="category-dropdown"
+                                                options={values}
+                                                sx={{ width: 300 }}
+                                                renderInput={(params) => <TextField {...params} label=" "/>}
+                                                category={category}
+                                                onChange={(event: any, newInput: string | null ) => setNewCategory(newInput)}
+                                            />
+
+                                        </Stack>
+                                    </Grid>
+
+
+
+                                    <Grid item xs={12}>
+                                        <Typography>
                                             Name of Expense:
                                         </Typography>
                                         <TextField
@@ -137,26 +160,6 @@ const AddExpense = (props) => {
                                         />
                                         {formik.errors.amount ? <p style={{color:"red"}}>Amount must match the following format: "0.00"</p> : null}
 
-                                    </Grid>
-
-                                    <Grid item xs={12}>
-                                        <Typography>
-                                            Category:
-                                        </Typography>
-                                        <Stack spacings={2} width='300px'>
-                                            <Autocomplete
-                                                selectOnFocus
-                                                clearOnBlur
-                                                handleHomeEndKeys
-                                                id="category-dropdown"
-                                                options={values}
-                                                sx={{ width: 300 }}
-                                                renderInput={(params) => <TextField {...params} label=" "/>}
-                                                category={category}
-                                                onChange={(event: any, newInput: string | null ) => setNewCategory(newInput)}
-                                            />
-
-                                        </Stack>
                                     </Grid>
 
                                     <Grid item xs={12}>
