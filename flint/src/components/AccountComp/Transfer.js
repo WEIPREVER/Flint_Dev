@@ -22,6 +22,8 @@ class Transfer extends React.Component {
     console.log(body);
   }
 
+  
+
   handleSubmit(event) {
     event.preventDefault();
     let user = AuthenticationService.getUser();
@@ -37,6 +39,7 @@ class Transfer extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+    
     window.location.href = "/bankaccount";
   }
   
@@ -50,7 +53,7 @@ class Transfer extends React.Component {
     return (
       <>
         <div className="container-fluid text-center">
-          <div className="row content bg-transparent">
+          <div className="row content">
             <div className="col-sm-2 sidenav">
               <Link to="/bankaccount">
                 <button className="btn-sm btn-danger" style={{ margin: 5 }}>
@@ -63,7 +66,7 @@ class Transfer extends React.Component {
               <div>
                 <h6>Transfer</h6>
                 <form className="form-inline">
-                  <div className="input-group mb-3 bg-transparent">
+                  <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default">
                         From Account
@@ -72,16 +75,19 @@ class Transfer extends React.Component {
                     <select name="fromAccountNumber"
                       value={this.state.fromAccountNumber}
                       onChange={this.handleChange}>
+                      <option>Select an Account</option>
                       {this.state.accounts.map(bankAccount => (
-                        <option  key={bankAccount.id}>
-                          {bankAccount.id}
+                        <option
+                          value={bankAccount.id}
+                          key={bankAccount.id}>
+                          {bankAccount.accountName}
                            </option>
                       ))} 
                     </select>
                     
                   </div>
                   <div className="input-group mb-3">
-                    <div className="input-group-prepend bg-transparent">
+                    <div className="input-group-prepend">
                       <span className="input-group-text" id="inputGroup-sizing-default ">
                         To Account
                       </span>
@@ -89,9 +95,12 @@ class Transfer extends React.Component {
                     <select name="toAccountNumber"
                       value={this.state.toAccountNumber}
                       onChange={this.handleChange}>
+                      <option>Select an Account</option>
                       {this.state.accounts.map(bankAccount => (
-                        <option  key={bankAccount.id}>
-                          {bankAccount.id}
+                        <option
+                        value={bankAccount.id}
+                          key={bankAccount.id}>
+                          {bankAccount.accountName}
                            </option>
                       ))} 
                     </select>
@@ -108,7 +117,7 @@ class Transfer extends React.Component {
                       name="amount"
                       value={this.state.amount || ''}
                        onChange = { this.handleChange}
-                      className="form-control bg-transparent"
+                      className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -119,15 +128,15 @@ class Transfer extends React.Component {
                 </form>
               </div>
               <hr></hr>
-              <h3>Banking text</h3>
-              <p>Some kind of account text</p>
+              <h3></h3>
+              <p></p>
             </div>
             <div className="col-sm-2 sidenav">
               <div className="well">
-                <p>Blogger</p>
+                <p></p>
               </div>
               <div className="well">
-                <p>NYCE Tube</p>
+                <p></p>
               </div>
             </div>
           </div>

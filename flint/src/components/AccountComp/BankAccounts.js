@@ -5,6 +5,7 @@ import AuthenticationService from '../../services/AuthenticationService';
 import { Table } from 'reactstrap';
 import AccountSelection from './AccountSelection';
 
+
 class BankAccounts extends React.Component {
   state = {
     isLoading: true,
@@ -21,11 +22,9 @@ class BankAccounts extends React.Component {
   }
 
   render() {
-    const { bankAccounts, isLoading } = this.state;
+    const { bankAccounts } = this.state;
     let user = AuthenticationService.getUser();
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
+    
 
     return (
       <div className="container-fluid text-center">
@@ -54,13 +53,13 @@ class BankAccounts extends React.Component {
           </div>
           <div className="col-sm-8 text-left ">
             <h1>Accounts</h1>
-            <div className=" container-fluid">
-              <h6>Balances</h6>
-              <Chart />
+            <div className=" container-fluid" style={{ margin: 5 }}>
+              <h6>Balances</h6>             
+                <Chart />                
             </div>
             <hr></hr>
-            <div className="container-fluid">
-              <div className="table-responsive">
+            <div className="container-fluid" style={{ margin: "10%" }}>
+              <div className="table-responsive" style={{color:'white'}}>
                 {bankAccounts && bankAccounts.length > 0 ? (
                   <><Table responsive>
                     <thead>
@@ -78,19 +77,19 @@ class BankAccounts extends React.Component {
                         </tr>
                       ))}
                     </tbody>
-                  </Table><div> <AccountSelection /></div></>
+                  </Table></>
                 ) : (
-                  !isLoading && <div>No Bank Accounts for {user} found</div>
+                  <div>No Bank Accounts for {user} found</div>
                 )}
               </div>
             </div>
           </div>
           <div className="col-sm-2 sidenav">
             <div className="well">
-              <p>Blogger</p>
+              <p></p>
             </div>
             <div className="well">
-              <p>NYCE Tube</p>
+              <p></p>
             </div>
           </div>
         </div>

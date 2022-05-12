@@ -67,7 +67,7 @@ class CreateAccount extends React.Component {
                       name="accountName"
                       value={this.state.accountName || ''}
                       onChange={this.handleChange}
-                      className="form-control bg-transparent"
+                      className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -83,7 +83,7 @@ class CreateAccount extends React.Component {
                       name="balance"
                       value={this.state.balance || ''}
                       onChange={this.handleChange}
-                      className="form-control bg-transparent"
+                      className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                     ></input>
@@ -95,7 +95,7 @@ class CreateAccount extends React.Component {
                       </span>
                     </div>
                     <select
-                      className="form-select bg-transparent"
+                      className="form-select"
                       aria-label="Disabled select example"
                       name="accountType"
                       value={this.state.accountType}
@@ -112,15 +112,15 @@ class CreateAccount extends React.Component {
                 </form>
               </div>
               <hr></hr>
-              <h3>Banking text</h3>
-              <p>Some kind of account text</p>
+              <h3></h3>
+              <p></p>
             </div>
             <div className="col-sm-2 sidenav">
               <div className="well">
-                <p>Blogger</p>
+                <p></p>
               </div>
               <div className="well">
-                <p>NYCE Tube</p>
+                <p></p>
               </div>
             </div>
           </div>
