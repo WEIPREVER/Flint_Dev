@@ -13,6 +13,13 @@ class Chart extends React.Component {
     let user = AuthenticationService.getUser();
     const response = await fetch('/users/'+user+'/balances/' + sessionStorage.getItem('accountNumber'));
     const body = await response.json();
+    if (sessionStorage.getItem('accountNumber') == null) {
+      this.setState({ current: body[0].id, accounts: body })
+      sessionStorage.setItem('accountNumber', body[0].id)
+      window.location.reload();
+  } else {
+      this.setState({ current: sessionStorage.getItem('accountNumber'), accounts: body });
+  }
     this.setState({ balances: body, isLoading: false });
   }
 
@@ -39,8 +46,8 @@ class Chart extends React.Component {
             bottom: 5,
           }}
         >
-          <XAxis dataKey="timeStamp" tickCount={5} />
-          <YAxis tickCount={10} />
+            <XAxis dataKey="timeStamp" tickCount={5} stroke='yellow'/>
+          <YAxis tickCount={10} stroke='yellow'/>
           <Tooltip />
           <Legend />
           <Line type="monotone" dataKey="balances" stroke="#FFFF00" strokeWidth={2} activeDot={{ r: 8 }} />

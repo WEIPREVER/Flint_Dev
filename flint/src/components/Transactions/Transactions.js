@@ -44,7 +44,7 @@ class Transactions extends React.Component {
               <Chart />
             </div>
             <hr></hr>
-            <div className="container-fluid">
+            <div className="container-fluid" style={{margin: "10%"}}>
               <div className="table-responsive">
                 {transactions && transactions.length > 0 ? (
                   <Table responsive>

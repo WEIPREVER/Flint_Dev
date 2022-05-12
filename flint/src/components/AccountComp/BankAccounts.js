@@ -17,6 +17,11 @@ class BankAccounts extends React.Component {
     let user = AuthenticationService.getUser();
     const response = await fetch('/users/' + user + '/bankaccount');
     const body = await response.json();
+    if (sessionStorage.getItem('accountNumber') == null || sessionStorage == undefined) {
+      
+      sessionStorage.setItem('accountNumber', body[0].id)
+      window.location.reload();
+  } 
     console.log(body);
     this.setState({ bankAccounts: body, isLoading: false, accountNumber: sessionStorage.getItem('accountNumber') });
   }
